@@ -31,7 +31,7 @@ class PasswordForgetFormBase extends Component {
       .then(() => {
         this.setState({ ...INITIAL_STATE });
       })
-      .catch((error) => {
+      .catch(error => {
         this.setState({ error });
       });
 
@@ -57,6 +57,7 @@ class PasswordForgetFormBase extends Component {
           placeholder='Email Address'
         />
         <button disabled={isInvalid} type='submit'>
+
           Reset My Password
         </button>
 
