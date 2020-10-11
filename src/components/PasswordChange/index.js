@@ -35,7 +35,6 @@ class PasswordChangeForm extends Component {
   };
 
   render() {
-    console.log(this.props.firebase)
     const { passwordOne, passwordTwo, error } = this.state;
 
     const isInvalid =
