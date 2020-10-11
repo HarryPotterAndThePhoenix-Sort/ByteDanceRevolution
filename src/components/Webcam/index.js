@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 import * as tf from "@tensorflow/tfjs"
 import * as posenet from "@tensorflow-models/posenet"
 import { drawKeypoints, drawSkeleton } from './utilities'
+import PoseOverlay from './pose'
 
 
 function WebcamComponent() {
@@ -91,9 +92,9 @@ function WebcamComponent() {
     
     setInterval(async ()=> {
       const vector = await makeVectors()
-      console.log(weightedDistanceMatching(vector, vector2))
+      console.log('SCORE:', weightedDistanceMatching(vector, vector2))
       
-    }, 8000) 
+    }, 1000) 
     
 
   }
@@ -119,7 +120,7 @@ function WebcamComponent() {
             left: 0,
             right: 0,
             textAlign: "center",
-            zindex: 9,
+            zindex: 3,
             width: 640,
             height: 480,
           }}
@@ -134,11 +135,12 @@ function WebcamComponent() {
             left: 0,
             right: 0,
             textAlign: "center",
-            zindex: 9,
+            zindex: 3,
             width: 640,
             height: 480,
           }}
         />
+        <PoseOverlay />
       </header>
       <button onClick={handleClick}>CLICK ME</button>
     </div>
