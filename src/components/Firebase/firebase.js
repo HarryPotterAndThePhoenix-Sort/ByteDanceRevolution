@@ -20,16 +20,24 @@ class Firebase {
 
     this.auth = app.auth();
     this.db = app.database();
+
+    this.googleProvider = new app.auth.GoogleAuthProvider();
   }
 
   // AUTH API
 
   doCreateUserWithEmailAndPassword = (email, password) =>
     this.auth.createUserWithEmailAndPassword(email, password);
+
   doSignInWithEmailAndPassword = (email, password) =>
     this.auth.signInWithEmailAndPassword(email, password);
+
+  doSignInWithGoogle = () => this.auth.signInWithPopup(this.googleProvider);
+
   doSignOut = () => this.auth.signOut();
+
   doPasswordReset = (email) => this.auth.sendPasswordResetEmail(email);
+
   doPasswordUpdate = (password) =>
     this.auth.currentUser.updatePassword(password);
 
