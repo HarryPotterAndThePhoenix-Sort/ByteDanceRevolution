@@ -4,10 +4,10 @@ import * as posenet from "@tensorflow-models/posenet";
 import { drawKeypoints, drawSkeleton } from "./utilities";
 import { withAuthorization } from "../Session";
 import Audio from "../Audio";
-import { dance1Poses } from './poses'
+import { dance1Poses } from "./poses";
+import { Identity } from "@tensorflow/tfjs";
 
 function WebcamComponent(props) {
-
   const [user, setUser] = useState(null);
   useEffect(() => {
     const userId = props.firebase.auth.currentUser.uid;
@@ -16,7 +16,6 @@ function WebcamComponent(props) {
       setUser(user);
     });
   }, []);
-
 
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
@@ -55,7 +54,12 @@ function WebcamComponent(props) {
       const blob = new Blob(recordedChunks, {
         type: "video/webm",
       });
-      props.firebase.storage.ref().child('users').child(props.firebase.auth.currentUser.uid).child('dance2').put(blob)
+      props.firebase.storage
+        .ref()
+        .child("users")
+        .child(props.firebase.auth.currentUser.uid)
+        .child("dance2")
+        .put(blob);
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       document.body.appendChild(a);
@@ -118,7 +122,6 @@ function WebcamComponent(props) {
     return result;
   }
 
-
   function weightedDistanceMatching(poseVector1, poseVector2) {
     let vector1PoseXY = poseVector1.slice(0, 34);
     let vector1Confidences = poseVector1.slice(34, 51);
@@ -142,22 +145,26 @@ function WebcamComponent(props) {
     return summation1 * summation2;
   }
 
-  const [dancePoses, setdancePoses] = useState([])
+  const [dancePoses, setdancePoses] = useState([]);
   useEffect(() => {
     setdancePoses(dance1Poses);
   }, []);
 
+  let index = 0;
+
   const handleClick = async (event, bpm) => {
     event.preventDefault();
-    console.log(dancePoses)
+    console.log(dancePoses);
 
-
-
-    setInterval(async () => {
+    const poseInterval = setInterval(async () => {
       const vector = await makeVectors();
-      const index = 0
+      console.log("index------------>", index);
       console.log(weightedDistanceMatching(vector, dancePoses[index++]));
+
+      if (index === dance1Poses.length) clearInterval(poseInterval);
     }, 2000);
+
+    //poseInterval();
   };
 
   const drawCanvas = (pose, video, videoWidth, videoHeight, canvas) => {
@@ -212,14 +219,14 @@ function WebcamComponent(props) {
       </header>
       <button onClick={handleClick}>CLICK ME</button>
       <div>
-      {capturing ? (
-        <button onClick={handleStopCaptureClick}>Stop Capture</button>
-      ) : (
-        <button onClick={handleStartCaptureClick}>Start Capture</button>
-      )}
-      {recordedChunks.length > 0 && (
-        <button onClick={handleDownload}>Download</button>
-      )}
+        {capturing ? (
+          <button onClick={handleStopCaptureClick}>Stop Capture</button>
+        ) : (
+          <button onClick={handleStartCaptureClick}>Start Capture</button>
+        )}
+        {recordedChunks.length > 0 && (
+          <button onClick={handleDownload}>Download</button>
+        )}
       </div>
     </div>
   );
