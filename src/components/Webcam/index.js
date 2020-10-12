@@ -152,6 +152,7 @@ function WebcamComponent(props) {
 
   let index = 0;
 
+  //click me
   const handleClick = async (event, bpm) => {
     event.preventDefault();
     console.log(dancePoses);
@@ -163,8 +164,6 @@ function WebcamComponent(props) {
 
       if (index === dance1Poses.length) clearInterval(poseInterval);
     }, 2000);
-
-    //poseInterval();
   };
 
   const drawCanvas = (pose, video, videoWidth, videoHeight, canvas) => {
