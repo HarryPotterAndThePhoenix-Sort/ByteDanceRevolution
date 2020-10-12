@@ -9,7 +9,6 @@ import Audio from '../Audio'
 function WebcamComponent(props) {
   const [user, setUser] = useState(null)
 
-  console.log(user)
   useEffect(()=>{
     const userId = props.firebase.auth.currentUser.uid
     props.firebase.user(userId).on('value', snapshot => {
@@ -55,6 +54,7 @@ function WebcamComponent(props) {
       const blob = new Blob(recordedChunks, {
         type: 'video/webm',
       });
+      props.firebase.storage.ref().child('users').child(props.firebase.auth.currentUser.uid).put(blob)
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
@@ -210,7 +210,7 @@ function WebcamComponent(props) {
         />
       </header>
       <button onClick={handleClick}>CLICK ME</button>
-      <body>
+      <div>
       {capturing ? (
         <button onClick={handleStopCaptureClick}>Stop Capture</button>
       ) : (
@@ -219,7 +219,7 @@ function WebcamComponent(props) {
       {recordedChunks.length > 0 && (
         <button onClick={handleDownload}>Download</button>
       )}
-      </body>
+      </div>
     </div>
 
   )

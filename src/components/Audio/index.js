@@ -1,4 +1,5 @@
 import React from 'react'
+import { withFirebase } from '../Firebase'
 
 class Audio extends React.Component {
   constructor(props){
@@ -49,4 +50,4 @@ class Audio extends React.Component {
   }
 }
 
-export default Audio
+export default withFirebase(Audio)
