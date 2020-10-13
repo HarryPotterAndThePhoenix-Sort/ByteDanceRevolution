@@ -3,22 +3,38 @@ import React, { useEffect, useRef, useState } from "react";
 import * as posenet from "@tensorflow-models/posenet";
 import { drawKeypoints, drawSkeleton } from "./utilities";
 import { withAuthorization } from "../Session";
+import PoseOverlay from "./pose"
 import { dance1Poses } from "./poses";
 import './Webcam.css'
 
 
 function WebcamComponent(props) {
 
+
+
+
+
+
   // --------Get Current User---------------------
   const [user, setUser] = useState(null);
   const currentUserId = props.firebase.auth.currentUser.uid
   useEffect(() => {
-    const userId = props.firebase.auth.currentUser.uid;
-    props.firebase.user(userId).on("value", (snapshot) => {
+    props.firebase.user(currentUserId).on("value", (snapshot) => {
       let user = snapshot.val();
       setUser(user);
     });
   }, [props.firebase]);
+
+
+    // -----set high score ------------ must still be invoked
+
+    const setUserHighScore = () => {
+      props.firebase.user(currentUserId).child('scores').set({
+        dance1: {
+          highScore: 83838929203949494
+        }
+      })
+    }
 
   // ----------- Webcam Initialization -----------
   const webcamRef = useRef(null);
@@ -29,12 +45,12 @@ function WebcamComponent(props) {
 
   //  ------------ Handle Data --------------------
   const handleDataAvailable = React.useCallback(
-      ({ data }) => {
-        if (data.size > 0) {
-          setRecordedChunks((prev) => prev.concat(data));
-        }
-      },
-      [setRecordedChunks]
+    ({ data }) => {
+      if (data.size > 0) {
+        setRecordedChunks((prev) => prev.concat(data));
+      }
+    },
+    [setRecordedChunks]
   );
 
   //  --------- Handle Start Capture Click ------------
@@ -48,13 +64,15 @@ function WebcamComponent(props) {
       handleDataAvailable
     );
     mediaRecorderRef.current.start();
-  }, [handleDataAvailable,webcamRef, setCapturing, mediaRecorderRef]);
+    console.log('TESTING TO SEE IF CAPTURE WORKS')
+  }, [handleDataAvailable, webcamRef, setCapturing, mediaRecorderRef]);
 
 
   // --------------- Handle Stop Capture ----------
   const handleStopCaptureClick = React.useCallback(() => {
     mediaRecorderRef.current.stop();
     setCapturing(false);
+    console.log('TESTING TO SEE IF STOP CAPTURE WORKS')
   }, [mediaRecorderRef, /*webcamRef,*/ setCapturing]);
 
   // ---------------- Handle Download -------------
@@ -71,13 +89,17 @@ function WebcamComponent(props) {
         .put(blob);
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
+      const source = document.createElement("source")
       document.body.appendChild(a);
+      a.appendChild(source)
+      source.src = '../../../public/2016-08-23_-_News_Opening_4_-_David_Fesliyan'
       a.style = "display: none";
       a.href = url;
       a.download = "react-webcam-stream-capture.webm";
       a.click();
       window.URL.revokeObjectURL(url);
       setRecordedChunks([]);
+      console.log('TESTING TO SEE IF DOWNLOAD WORKS', song)
     }
   }, [currentUserId, recordedChunks, props.firebase.storage]);
 
@@ -132,7 +154,7 @@ function WebcamComponent(props) {
     return result;
   }
 
-// ----------------- Match Vectors ------------------
+  // ----------------- Match Vectors ------------------
   function weightedDistanceMatching(poseVector1, poseVector2) {
     let vector1PoseXY = poseVector1.slice(0, 34);
     let vector1Confidences = poseVector1.slice(34, 51);
@@ -155,8 +177,7 @@ function WebcamComponent(props) {
     return summation1 * summation2;
   }
 
-  // ------ Setting State with Importet Dance Poses ---
-
+  // ------ Setting State with Imported Dance Poses ---
   const [dancePoses, setdancePoses] = useState([]);
   useEffect(() => {
     setdancePoses(dance1Poses);
@@ -168,6 +189,15 @@ function WebcamComponent(props) {
   const handleClick = async (event, bpm) => {
     event.preventDefault();
     console.log(dancePoses);
+
+    handleSongStart()
+    handleStartCaptureClick()
+    const audio = document.getElementById(song)
+    audio.addEventListener('ended', (event) => handleStopCaptureClick())
+
+    handleDownload()
+
+
 
     const poseInterval = setInterval(async () => {
       const vector = await makeVectors();
@@ -195,6 +225,7 @@ function WebcamComponent(props) {
   // ------Handle Song Start -----------------------
   const handleSongStart = React.useCallback(()=>{
     const audio = document.getElementById(song)
+    audio.volume = 0.2
     audio.play()
   }, [song])
 
@@ -205,6 +236,7 @@ function WebcamComponent(props) {
     audio.currentTime = 0
   }, [song])
 
+  console.log(user)
 
   return (
     <div>
@@ -212,33 +244,40 @@ function WebcamComponent(props) {
         <h3>Score: </h3>
       </div>
       <div className="greeting">
-        <h3>Hello { user ? user.username : null}</h3>
+        <h3>Hello {user ? user.username : null}</h3>
       </div>
       <div className="controls">
-      {/* <h4>Hello {user !== null ? user.username : null}!</h4> */}
-      <div>
-      <span>4</span>
-      </div>
+        {/* <h4>Hello {user !== null ? user.username : null}!</h4> */}
         <div>
-        <select value={song} onChange={e=>setSong(e.target.value)}>
-          <option value='dilla'>Dilla</option>
-          <option value='bhairavi'>Bhairavi</option>
-          <option value='nature-boy'>Nature Boy</option>
-        </select>
-        <button onClick={handleSongStart}>Start</button>
-        <button onClick={handleSongStop}>Stop</button>
-      </div>
-      <div>
-        {capturing ? (
-          <button onClick={handleStopCaptureClick}>Stop Capture</button>
-        ) : (
-          <button onClick={handleStartCaptureClick}>Start Capture</button>
-        )}
-        {recordedChunks.length > 0 && (
-          <button onClick={handleDownload}>Download</button>
-        )}
-        <button onClick={handleClick}>CLICK ME</button>
-      </div>
+          <span>4</span>
+        </div>
+        <div>
+          <select value={song} onChange={e => {
+            /* pausing the previous song */
+            handleSongStop()
+
+            /*changing the selected song value */
+            setSong(e.target.value)
+          }}>
+            <option value='dilla'>Dilla</option>
+            <option value='bhairavi'>Bhairavi</option>
+            <option value='nature-boy'>Nature Boy</option>
+            <option value='sample'>Sample</option>
+          </select>
+          {/* <button onClick={handleSongStart}>Start</button>
+        <button onClick={handleSongStop}>Stop</button> */}
+        </div>
+        <div>
+          {/* {capturing ? (
+            <button onClick={handleStopCaptureClick}>Stop Capture</button>
+          ) : (
+              <button onClick={handleStartCaptureClick}>Start Capture</button>
+            )} */}
+          {recordedChunks.length ? (
+            <button onClick={handleDownload}>Download</button>
+          ) : <div/>}
+          <button onClick={handleClick}>START</button>
+        </div>
       </div>
       <div>
         <Webcam
@@ -250,7 +289,7 @@ function WebcamComponent(props) {
             left: 0,
             right: 0,
             textAlign: "center",
-            zindex: 9,
+            zindex: 3,
             width: 640,
             height: 480,
           }}
@@ -265,12 +304,13 @@ function WebcamComponent(props) {
             left: 0,
             right: 0,
             textAlign: "center",
-            zindex: 9,
+            zindex: 3,
             width: 640,
             height: 480,
           }}
         />
-        </div>
+        <PoseOverlay />
+      </div>
 
     </div>
   );
@@ -280,35 +320,3 @@ const condition = (authUser) => !!authUser;
 
 export default withAuthorization(condition)(WebcamComponent);
 
-//{score: 0.2703212749706033, keypoints: Array(17)}
-// keypoints: Array(17)
-// 0: {score: 0.9822884798049927, part: "nose", position: {…}}
-// 1: {score: 0.9331652522087097, part: "leftEye", position: {…}}
-// 2: {score: 0.97440105676651, part: "rightEye", position: {…}}
-// 3: {score: 0.3304564356803894, part: "leftEar", position: {…}}
-// 4: {score: 0.6350568532943726, part: "rightEar", position: {…}}
-// 5: {score: 0.131691575050354, part: "leftShoulder", position: {…}}
-// 6: {score: 0.20595556497573853, part: "rightShoulder", position: {…}}
-// 7: {score: 0.02258964627981186, part: "leftElbow", position: {…}}
-// 8: {score: 0.022270627319812775, part: "rightElbow", position: {…}}
-// 9: {score: 0.19954724609851837, part: "leftWrist", position: {…}}
-// 10: {score: 0.031363993883132935, part: "rightWrist", position: {…}}
-// 11: {score: 0.024194451048970222, part: "leftHip", position: {…}}
-// 12: {score: 0.026693549007177353, part: "rightHip", position: {…}}
-// 13: {score: 0.005670389160513878, part: "leftKnee", position: {…}}
-// 14: {score: 0.0067472257651388645, part: "rightKnee", position: {…}}
-// 15: {score: 0.02152351848781109, part: "leftAnkle", position: {…}}
-// 16: {score: 0.041845809668302536, part: "rightAnkle", position: {…}}
-// length: 17
-// __proto__: Array(0)
-// score: 0.2703212749706033
-
-// {score: 0.2703212749706033, keypoints: Array(17)}
-// keypoints: Array(17)
-// 0:
-// part: "nose"
-// position:
-// x: 305.4566229524181
-// y: 265.87529235966736
-// __proto__:
-//score
