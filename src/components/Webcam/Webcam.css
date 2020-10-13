@@ -1,0 +1,13 @@
+.controls {
+  display: flex;
+  justify-content: center;
+}
+
+li {
+  color: rebeccapurple;
+}
+
+.greeting {
+  display: flex;
+  justify-content: center;
+}

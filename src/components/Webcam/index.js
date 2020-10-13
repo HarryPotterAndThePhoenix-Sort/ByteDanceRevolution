@@ -3,26 +3,41 @@ import React, { useEffect, useRef, useState } from "react";
 import * as posenet from "@tensorflow-models/posenet";
 import { drawKeypoints, drawSkeleton } from "./utilities";
 import { withAuthorization } from "../Session";
-import Audio from "../Audio";
 import { dance1Poses } from "./poses";
-import { Identity } from "@tensorflow/tfjs";
+import './Webcam.css'
+
 
 function WebcamComponent(props) {
+
+  // --------Get Current User---------------------
   const [user, setUser] = useState(null);
+  const currentUserId = props.firebase.auth.currentUser.uid
   useEffect(() => {
     const userId = props.firebase.auth.currentUser.uid;
     props.firebase.user(userId).on("value", (snapshot) => {
       let user = snapshot.val();
       setUser(user);
     });
-  }, []);
+  }, [props.firebase]);
 
+  // ----------- Webcam Initialization -----------
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
-  const mediaRecorderRef = React.useRef(null);
-  const [capturing, setCapturing] = React.useState(false);
+  const mediaRecorderRef = useRef(null);
+  const [capturing, setCapturing] = useState(false);
   const [recordedChunks, setRecordedChunks] = React.useState([]);
 
+  //  ------------ Handle Data --------------------
+  const handleDataAvailable = React.useCallback(
+      ({ data }) => {
+        if (data.size > 0) {
+          setRecordedChunks((prev) => prev.concat(data));
+        }
+      },
+      [setRecordedChunks]
+  );
+
+  //  --------- Handle Start Capture Click ------------
   const handleStartCaptureClick = React.useCallback(() => {
     setCapturing(true);
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
@@ -33,22 +48,16 @@ function WebcamComponent(props) {
       handleDataAvailable
     );
     mediaRecorderRef.current.start();
-  }, [webcamRef, setCapturing, mediaRecorderRef]);
+  }, [handleDataAvailable,webcamRef, setCapturing, mediaRecorderRef]);
 
-  const handleDataAvailable = React.useCallback(
-    ({ data }) => {
-      if (data.size > 0) {
-        setRecordedChunks((prev) => prev.concat(data));
-      }
-    },
-    [setRecordedChunks]
-  );
 
+  // --------------- Handle Stop Capture ----------
   const handleStopCaptureClick = React.useCallback(() => {
     mediaRecorderRef.current.stop();
     setCapturing(false);
-  }, [mediaRecorderRef, webcamRef, setCapturing]);
+  }, [mediaRecorderRef, /*webcamRef,*/ setCapturing]);
 
+  // ---------------- Handle Download -------------
   const handleDownload = React.useCallback(() => {
     if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
@@ -57,7 +66,7 @@ function WebcamComponent(props) {
       props.firebase.storage
         .ref()
         .child("users")
-        .child(props.firebase.auth.currentUser.uid)
+        .child(currentUserId)
         .child("dance2")
         .put(blob);
       const url = URL.createObjectURL(blob);
@@ -70,19 +79,19 @@ function WebcamComponent(props) {
       window.URL.revokeObjectURL(url);
       setRecordedChunks([]);
     }
-  }, [recordedChunks]);
+  }, [currentUserId, recordedChunks, props.firebase.storage]);
 
-  //Load posenet
+  // ------------ Load posenet---------------------
   const runPosenet = async () => {
     const net = await posenet.load({
       inputResolution: { width: 800, height: 480 },
       scale: 0.5,
     });
-
-    //Run function every second
+    //    Run function every second
     return detect(net);
   };
 
+  // ------------ Detec ---------------------------
   const detect = async (net) => {
     if (
       typeof webcamRef.current !== "undefined" &&
@@ -106,15 +115,16 @@ function WebcamComponent(props) {
     }
   };
 
+  // ------------- Run PoseNet and Make Vectors ------
   async function makeVectors() {
     let vector = await runPosenet();
     let result = [];
     vector.keypoints.map((position) => {
-      result.push(position.position.x, position.position.y);
+      return result.push(position.position.x, position.position.y);
     });
 
     vector.keypoints.map((position) => {
-      result.push(position.score);
+      return result.push(position.score);
     });
 
     result.push(vector.score);
@@ -122,6 +132,7 @@ function WebcamComponent(props) {
     return result;
   }
 
+// ----------------- Match Vectors ------------------
   function weightedDistanceMatching(poseVector1, poseVector2) {
     let vector1PoseXY = poseVector1.slice(0, 34);
     let vector1Confidences = poseVector1.slice(34, 51);
@@ -141,9 +152,10 @@ function WebcamComponent(props) {
         Math.abs(vector1PoseXY[i] - vector2PoseXY[i]);
       summation2 = summation2 + tempSum;
     }
-
     return summation1 * summation2;
   }
+
+  // ------ Setting State with Importet Dance Poses ---
 
   const [dancePoses, setdancePoses] = useState([]);
   useEffect(() => {
@@ -152,7 +164,7 @@ function WebcamComponent(props) {
 
   let index = 0;
 
-  //click me
+  //----------------Click me --------------------------
   const handleClick = async (event, bpm) => {
     event.preventDefault();
     console.log(dancePoses);
@@ -166,6 +178,7 @@ function WebcamComponent(props) {
     }, 2000);
   };
 
+  // ----------------- Draw Function ------------------
   const drawCanvas = (pose, video, videoWidth, videoHeight, canvas) => {
     const ctx = canvas.current.getContext("2d");
     canvas.current.width = videoWidth;
@@ -175,17 +188,59 @@ function WebcamComponent(props) {
     drawSkeleton(pose["keypoints"], 0.5, ctx);
   };
 
+  // ------ Set Audio to State ----------------------
+  const [song, setSong] = useState('dilla')
+  // no useEffect needed, setSong taken care of in onChange of <select>
+
+  // ------Handle Song Start -----------------------
+  const handleSongStart = React.useCallback(()=>{
+    const audio = document.getElementById(song)
+    audio.play()
+  }, [song])
+
+  // ------Hand Song Stop ---------------------------
+  const handleSongStop = React.useCallback(()=>{
+    const audio = document.getElementById(song)
+    audio.pause()
+    audio.currentTime = 0
+  }, [song])
+
+
   return (
     <div>
-      <header>
-        <h3>User Name: {user !== null ? user.username : null}</h3>
-        <Audio />
+      <div>
+        <h3>Score: </h3>
+      </div>
+      <div className="greeting">
+        <h3>Hello { user ? user.username : null}</h3>
+      </div>
+      <div className="controls">
+      {/* <h4>Hello {user !== null ? user.username : null}!</h4> */}
+      <div>
+      <span>4</span>
+      </div>
         <div>
-          <span className="metronone">.</span>
-          <span className="metronone">.</span>
-          <span className="metronone">.</span>
-          <span className="metronone">.</span>
-        </div>
+        <select value={song} onChange={e=>setSong(e.target.value)}>
+          <option value='dilla'>Dilla</option>
+          <option value='bhairavi'>Bhairavi</option>
+          <option value='nature-boy'>Nature Boy</option>
+        </select>
+        <button onClick={handleSongStart}>Start</button>
+        <button onClick={handleSongStop}>Stop</button>
+      </div>
+      <div>
+        {capturing ? (
+          <button onClick={handleStopCaptureClick}>Stop Capture</button>
+        ) : (
+          <button onClick={handleStartCaptureClick}>Start Capture</button>
+        )}
+        {recordedChunks.length > 0 && (
+          <button onClick={handleDownload}>Download</button>
+        )}
+        <button onClick={handleClick}>CLICK ME</button>
+      </div>
+      </div>
+      <div>
         <Webcam
           ref={webcamRef}
           style={{
@@ -215,18 +270,8 @@ function WebcamComponent(props) {
             height: 480,
           }}
         />
-      </header>
-      <button onClick={handleClick}>CLICK ME</button>
-      <div>
-        {capturing ? (
-          <button onClick={handleStopCaptureClick}>Stop Capture</button>
-        ) : (
-          <button onClick={handleStartCaptureClick}>Start Capture</button>
-        )}
-        {recordedChunks.length > 0 && (
-          <button onClick={handleDownload}>Download</button>
-        )}
-      </div>
+        </div>
+
     </div>
   );
 }
