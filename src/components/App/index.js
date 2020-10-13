@@ -10,7 +10,7 @@ import HomePage from '../Home';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import WebcamComponent from '../Webcam';
-import Audio from '../Audio'
+import './App.css'
 
 import * as ROUTES from '../../constants/routes';
 
@@ -18,9 +18,7 @@ const App = () => (
   <Router>
     <div>
       <Navigation />
-
       <hr />
-
       <Route exact path={ROUTES.LANDING} component={LandingPage} />
       <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
       <Route path={ROUTES.SIGN_IN} component={SignInPage} />
@@ -29,7 +27,6 @@ const App = () => (
       <Route path={ROUTES.ACCOUNT} component={AccountPage} />
       <Route path={ROUTES.ADMIN} component={AdminPage} />
       <Route path={ROUTES.WEBCAM} component={WebcamComponent} />
-      <Route path={ROUTES.AUDIO} component={Audio} />
     </div>
   </Router>
 );

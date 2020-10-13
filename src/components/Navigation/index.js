@@ -5,6 +5,8 @@ import SignOutButton from '../SignOut'
 
 import * as ROUTES from "../../constants/routes";
 
+import './Navigation.css'
+
 const Navigation = () => (
   <div>
   <AuthUserContext.Consumer>
@@ -16,7 +18,7 @@ const Navigation = () => (
 );
 
 const NavigationAuth = () => (
-  <ul>
+  <ul className="container">
     <li>
       <Link to={ROUTES.LANDING}>Landing</Link>
     </li>

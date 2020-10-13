@@ -53,7 +53,6 @@ class SignInFormBase extends Component {
   };
 
   render() {
-    console.log(this.state);
     const { email, password, error } = this.state;
 
     const isInvalid = password === "" || email === "";

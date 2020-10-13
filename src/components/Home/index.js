@@ -2,6 +2,8 @@ import React from 'react';
 
 import { withAuthorization } from '../Session';
 
+import './Home.css'
+
 class HomePage extends React.Component {
   constructor(props) {
     super(props)
@@ -20,12 +22,11 @@ class HomePage extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
-      <div>
+      <div className="Home">
     <h1>Home Page</h1>
     <p>The Home Page is accessible by every signed in user.</p>
-    <h3>{this.state.user.username}</h3>
+    <h3>Welcome {this.state.user.username}!</h3>
     <h3>:)</h3>
   </div>
     )
