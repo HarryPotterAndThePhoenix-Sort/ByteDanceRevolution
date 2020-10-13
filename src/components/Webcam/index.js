@@ -74,15 +74,17 @@ function WebcamComponent(props) {
         .put(blob);
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
+      const source = document.createElement("source")
       document.body.appendChild(a);
+      a.appendChild(source)
+      source.src = '../../../public/2016-08-23_-_News_Opening_4_-_David_Fesliyan'
       a.style = "display: none";
       a.href = url;
-      a.audio = song;
       a.download = "react-webcam-stream-capture.webm";
       a.click();
       window.URL.revokeObjectURL(url);
       setRecordedChunks([]);
-      console.log('TESTING TO SEE IF DOWNLOAD WORKS')
+      console.log('TESTING TO SEE IF DOWNLOAD WORKS', song)
     }
   }, [currentUserId, recordedChunks, props.firebase.storage]);
 
@@ -176,7 +178,8 @@ function WebcamComponent(props) {
 
     handleSongStart()
     handleStartCaptureClick()
-
+    const audio = document.getElementById(song)
+    audio.addEventListener('ended', (event) => handleStopCaptureClick())
 
     handleDownload()
   
