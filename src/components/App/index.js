@@ -10,6 +10,7 @@ import HomePage from '../Home';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import WebcamComponent from '../Webcam';
+import PoseData from '../Webcam/poseData'
 import './App.css'
 
 import * as ROUTES from '../../constants/routes';
@@ -27,6 +28,7 @@ const App = () => (
       <Route path={ROUTES.ACCOUNT} component={AccountPage} />
       <Route path={ROUTES.ADMIN} component={AdminPage} />
       <Route path={ROUTES.WEBCAM} component={WebcamComponent} />
+      <Route path={ROUTES.POSEDATA} component={PoseData} />
     </div>
   </Router>
 );

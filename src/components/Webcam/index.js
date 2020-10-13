@@ -170,6 +170,7 @@ function WebcamComponent(props) {
   }, []);
 
   let index = 0;
+  const [score, setScore] = useState(0)
 
   //----------------Click me --------------------------
   const handleClick = async (event, bpm) => {
@@ -183,13 +184,11 @@ function WebcamComponent(props) {
 
     handleDownload()
   
-  
 
     const poseInterval = setInterval(async () => {
       const vector = await makeVectors();
       console.log("index------------>", index);
-      console.log(weightedDistanceMatching(vector, dancePoses[index++]));
-
+      setScore(score + weightedDistanceMatching(vector, dancePoses[index++]))
       if (index === dance1Poses.length) clearInterval(poseInterval);
     }, 2000);
   };
@@ -226,7 +225,7 @@ function WebcamComponent(props) {
   return (
     <div>
       <div>
-        <h3>Score: </h3>
+        <h3>Score: {score} </h3>
       </div>
       <div className="greeting">
         <h3>Hello {user ? user.username : null}</h3>
