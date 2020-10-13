@@ -50,7 +50,6 @@ function WebcamComponent(props) {
     mediaRecorderRef.current.start();
   }, [handleDataAvailable,webcamRef, setCapturing, mediaRecorderRef]);
 
-
   // --------------- Handle Stop Capture ----------
   const handleStopCaptureClick = React.useCallback(() => {
     mediaRecorderRef.current.stop();
@@ -156,7 +155,6 @@ function WebcamComponent(props) {
   }
 
   // ------ Setting State with Importet Dance Poses ---
-
   const [dancePoses, setdancePoses] = useState([]);
   useEffect(() => {
     setdancePoses(dance1Poses);
@@ -271,7 +269,6 @@ function WebcamComponent(props) {
           }}
         />
         </div>
-
     </div>
   );
 }
