@@ -236,35 +236,3 @@ const condition = (authUser) => !!authUser;
 
 export default withAuthorization(condition)(WebcamComponent);
 
-//{score: 0.2703212749706033, keypoints: Array(17)}
-// keypoints: Array(17)
-// 0: {score: 0.9822884798049927, part: "nose", position: {…}}
-// 1: {score: 0.9331652522087097, part: "leftEye", position: {…}}
-// 2: {score: 0.97440105676651, part: "rightEye", position: {…}}
-// 3: {score: 0.3304564356803894, part: "leftEar", position: {…}}
-// 4: {score: 0.6350568532943726, part: "rightEar", position: {…}}
-// 5: {score: 0.131691575050354, part: "leftShoulder", position: {…}}
-// 6: {score: 0.20595556497573853, part: "rightShoulder", position: {…}}
-// 7: {score: 0.02258964627981186, part: "leftElbow", position: {…}}
-// 8: {score: 0.022270627319812775, part: "rightElbow", position: {…}}
-// 9: {score: 0.19954724609851837, part: "leftWrist", position: {…}}
-// 10: {score: 0.031363993883132935, part: "rightWrist", position: {…}}
-// 11: {score: 0.024194451048970222, part: "leftHip", position: {…}}
-// 12: {score: 0.026693549007177353, part: "rightHip", position: {…}}
-// 13: {score: 0.005670389160513878, part: "leftKnee", position: {…}}
-// 14: {score: 0.0067472257651388645, part: "rightKnee", position: {…}}
-// 15: {score: 0.02152351848781109, part: "leftAnkle", position: {…}}
-// 16: {score: 0.041845809668302536, part: "rightAnkle", position: {…}}
-// length: 17
-// __proto__: Array(0)
-// score: 0.2703212749706033
-
-// {score: 0.2703212749706033, keypoints: Array(17)}
-// keypoints: Array(17)
-// 0:
-// part: "nose"
-// position:
-// x: 305.4566229524181
-// y: 265.87529235966736
-// __proto__:
-//score

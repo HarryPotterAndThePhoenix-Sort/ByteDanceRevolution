@@ -4,7 +4,7 @@ function PoseOverlay () {
     return (
         <div>
            <header>
-            <div
+            <video
               style={{
                 position: "absolute",
                 marginLeft: "auto",
