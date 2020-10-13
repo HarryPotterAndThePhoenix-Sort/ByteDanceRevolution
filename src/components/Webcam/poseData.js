@@ -1,14 +1,11 @@
-import Webcam from "react-webcam";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import * as posenet from "@tensorflow-models/posenet";
 import { drawKeypoints, drawSkeleton } from "./utilities";
-import { withAuthorization } from "../Session";
-import PoseOverlay from "./pose"
-import { dance1Poses } from "./poses";
 import './Webcam.css'
 
 
 function PoseData() {
+    // const canvasRef = useRef(null);
     // ------------ Load posenet---------------------
     const runPosenet = async () => {
         const net = await posenet.load({
@@ -20,14 +17,19 @@ function PoseData() {
     };
 
     // ------------ Detec ---------------------------
-    const detect = async (net) => {
 
-        const pose = await net.singlePose('../../test-pose');
-        // drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
+    const detect = async (net) => {
+        let testImg = document.getElementById('test')
+        const pose = await net.estimateSinglePose(testImg);
+        // var canvas = document.getElementById('canvas');
+        // drawCanvas(pose, testImg, testImg.clientWidth, testImg.clientHeight, canvas);
         console.log('POSE FROM POSE DATA', pose)
         return pose
 
-    };
+    }
+
+
+
 
     // ------------- Run PoseNet and Make Vectors ------
     async function makeVectors() {
@@ -42,34 +44,42 @@ function PoseData() {
         });
 
         result.push(vector.score);
-        console.log("VECTOR:", vector, "RESULT:", result);
+        console.log("VECTOR FROM POSE DATA FILE:", vector, "RESULT:", result);
         return result;
     }
 
     // ----------------- Draw Function ------------------
-    const drawCanvas = (pose, video, videoWidth, videoHeight, canvas) => {
-        const ctx = canvas.current.getContext("2d");
-        canvas.current.width = videoWidth;
-        canvas.current.height = videoHeight;
-
-        drawKeypoints(pose["keypoints"], 0.5, ctx);
-        drawSkeleton(pose["keypoints"], 0.5, ctx);
-    };
+    // const drawCanvas = (pose, video, videoWidth, videoHeight, canvas) => {
+    //     let ctx = canvas.getContext('2d');
+    //     // const ctx = canvas.current.getContext("2d");
+     //     canvas.current.width = videoWidth;
+    //     canvas.current.height = videoHeight;
+    
+    //     drawKeypoints(pose["keypoints"], 0.5, ctx);
+     //     drawSkeleton(pose["keypoints"], 0.5, ctx);
+    // };
 
     const handleClick = async () => {
-        runPosenet()
-        makeVectors()
-        
-    }
+    runPosenet()
+    makeVectors()
+    // drawCanvas()
+}
+    
+
 
 
      return (
-            <div><h1>This is a test</h1>
-            <button onClick={handleClick}>CLICK</button>
-            </div>
-        )
-    
-}
+       <div>
+           <h1>This is a test</h1>
+            <button onClick={handleClick}>CLICK</button></div>
+     
+     
+    )
+     
+    }
+        
+       
+
 
 export default PoseData
 
