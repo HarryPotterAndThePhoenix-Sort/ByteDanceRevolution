@@ -1,0 +1,106 @@
+{
+  "scores" : {
+    "Song3" : {
+      "userId" : 1123232
+    },
+    "song1" : {
+      "userId" : 1234
+    },
+    "song2" : {
+      "userId" : 2222
+    }
+  },
+  "users" : {
+    "0rsgwCPao6ewEB8wK4MfaeypzBx1" : {
+      "Scores" : {
+        "dance1" : 3389829
+      },
+      "email" : "winstonchiang06@gmail.com",
+      "username" : "Winston Chiang"
+    },
+    "1tuonaoa8FdAXC7JNKcJX7CjwIt2" : {
+      "email" : "test@email.com",
+      "username" : "test"
+    },
+    "BzF70efRh0OAEtmmYqb9IXX2Voj2" : {
+      "email" : "code@code.com",
+      "username" : "codeReview"
+    },
+    "CvT8g319mKdeh6yCMm3PpU8UScc2" : {
+      "email" : "will@iam.com",
+      "username" : "william"
+    },
+    "GwOjSq6RhJTSkToqfwqIW6EHAjh1" : {
+      "email" : "test5@gmail.com",
+      "username" : "test5"
+    },
+    "M8UPPaGF3uWLedtqbLRcm3CZznB3" : {
+      "email" : "rick@rJ.com",
+      "username" : "Rick"
+    },
+    "PkDQqP5abHcGYOnqpyO6Cs3VLMe2" : {
+      "email" : "crack@head.com",
+      "username" : "crackHeadJoe"
+    },
+    "SXyTxvmRySMATfwr1K9BLj19sNS2" : {
+      "email" : "persona@me.com",
+      "username" : "Person"
+    },
+    "WQLvYBNsxifTSoEdPibcrvR0yKB3" : {
+      "email" : "sunday@mail.com",
+      "username" : "sunday"
+    },
+    "YfYoWxrx4KgD654YXAafdSnflD83" : {
+      "email" : "testing1@gmail.com",
+      "username" : "test "
+    },
+    "ZICeG9dgKReKtarGOKNM0anwjLr2" : {
+      "email" : "bob@email.com",
+      "username" : "Billy"
+    },
+    "a2sswFjq3MgJsqCboLHzsWgJ8zF2" : {
+      "email" : "email@hello.com",
+      "username" : "1"
+    },
+    "bL8qyzjNzZgyXvlFj71ql6MP9Xh1" : {
+      "email" : "fullmetal@alchemist.com",
+      "username" : "edward"
+    },
+    "c2xQ6PAopZOyGUTSkxzhSCmWb6b2" : {
+      "email" : "pawan@pawan.com",
+      "username" : "pawan"
+    },
+    "doJk11KV28eGCDFhecdwDYP7phO2" : {
+      "email" : "nam@email.com",
+      "username" : "nam"
+    },
+    "eCBMdjWo19Z3lXYoH5SuNF8kNgA2" : {
+      "email" : "Bro@bro.com",
+      "username" : "New"
+    },
+    "eXQQ7Hn8fCaP3gyVxUHFiGuhJ7i1" : {
+      "email" : "namrathapmd@gmail.com",
+      "username" : "Namratha PM"
+    },
+    "m2SA2RYIZfYEdvaPFENMh2mKkcN2" : {
+      "email" : "help@mail.com",
+      "username" : "helpTicket"
+    },
+    "mfQoHoLG7MVnTFDn2xVKhZfxv2h1" : {
+      "email" : "namz.jasmine42@gmail.com",
+      "username" : "Namratha Pashupathy"
+    },
+    "nj6W6UGncqNLiUojDzdCP73JjF23" : {
+      "email" : "we@anderson.com",
+      "username" : "Wesley"
+    },
+    "vDbKdJUoefUbHgpc46oqzYYl8Bf2" : {
+      "email" : "nxp6856@g.rit.edu",
+      "username" : "Namratha Pashupathy Manjula Devi"
+    },
+    "zowZNjXI5WcLCum4PkFKc1t32oY2" : {
+      "email" : "cody@email.com",
+      "username" : "cody"
+    }
+  }
+}

@@ -1,9 +1,14 @@
 import React from "react";
+import './Landing.css'
+import { withFirebase } from '../Firebase'
 
-const Landing = () => (
-  <div>
-    <h1>Landing</h1>
+const Landing = (props) => {
+  console.log(props)
+  return (
+  <div className="container">
+    <h1>High Scores!!!</h1>
   </div>
-);
+)
+  };
 
-export default Landing;
+export default withFirebase(Landing);
