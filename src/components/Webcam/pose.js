@@ -27,7 +27,12 @@ export default class PoseOverlay extends React.Component {
   }
 
   render() {
-    console.log("Image index", this.state.image);
+    console.log(
+      "Image index",
+      this.state.image,
+      "AT time----->",
+      new Date().getSeconds()
+    );
     return (
       <div>
         <header>
@@ -45,7 +50,7 @@ export default class PoseOverlay extends React.Component {
               opacity: 0.5,
               width: 640,
               height: 480,
-              backgroundColor: "violet",
+              backgroundColor: "white",
               backgroundImage: `url('./${this.state.image}.jpg')`,
               backgroundPosition: "center",
             }}

@@ -186,6 +186,10 @@ function WebcamComponent(props) {
 
   //----------------Click me --------------------------
   const handleClick = async (event, bpm) => {
+    console.log(
+      "Time before PoseInterval------------>@@@@",
+      new Date().getSeconds()
+    );
     event.preventDefault();
     console.log(dancePoses);
 
@@ -197,9 +201,14 @@ function WebcamComponent(props) {
     });
 
     const poseInterval = setInterval(async () => {
-      console.log("Webcam index------------>", index);
+      // console.log("Webcam index------------>", index);
+      console.log(
+        "Webcam index------------>",
+        index,
+        "at time----->",
+        new Date().getSeconds()
+      );
       const vector = await makeVectors();
-
       setScore(score + weightedDistanceMatching(vector, dancePoses[index++]));
       if (index === dance1Poses.length) clearInterval(poseInterval);
     }, 2000);
