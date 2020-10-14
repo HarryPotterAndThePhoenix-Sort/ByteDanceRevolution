@@ -20,7 +20,7 @@ const Navigation = () => (
 const NavigationAuth = () => (
   <ul className="container">
     <li>
-      <Link to={ROUTES.LANDING}>Landing</Link>
+      <Link to={ROUTES.HIGH_SCORES}>Landing</Link>
     </li>
     <li>
       <Link to={ROUTES.HOME}>Home</Link>
@@ -40,7 +40,7 @@ const NavigationAuth = () => (
 const NavigationNonAuth = () => (
   <ul>
     <li>
-      <Link to={ROUTES.LANDING}>Landing</Link>
+      <Link to={ROUTES.HIGH_SCORES}>High Scores</Link>
     </li>
     <li>
       <Link to={ROUTES.SIGN_IN}>Sign In</Link>

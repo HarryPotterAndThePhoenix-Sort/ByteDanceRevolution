@@ -2,7 +2,7 @@ import React , { useState, useEffect } from "react";
 import './Landing.css'
 import { withFirebase } from '../Firebase'
 
-const Landing = (props) => {
+const HighScores = (props) => {
 
   const [dance1Scores, setDance1Scores] = useState([])
 
@@ -70,4 +70,4 @@ const Landing = (props) => {
 )
   };
 
-export default withFirebase(Landing);
+export default withFirebase(HighScores);
