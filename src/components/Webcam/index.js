@@ -1,21 +1,19 @@
-import Webcam from "react-webcam";
-import React, { useEffect, useRef, useState } from "react";
-import * as posenet from "@tensorflow-models/posenet";
-import { drawKeypoints, drawSkeleton } from "./utilities";
-import { withAuthorization } from "../Session";
-import PoseOverlay from "./pose"
-import { dance1Poses } from "./poses";
-import './Webcam.css'
-
+import Webcam from 'react-webcam';
+import React, { useEffect, useRef, useState } from 'react';
+import * as posenet from '@tensorflow-models/posenet';
+import { drawKeypoints, drawSkeleton } from './utilities';
+import { withAuthorization } from '../Session';
+import PoseOverlay from './pose';
+import { dance1Poses } from './poses';
+import './Webcam.css';
 
 function WebcamComponent(props) {
-
   // --------Get Current User---------------------
   const [user, setUser] = useState(null);
-  const currentUserId = props.firebase.auth.currentUser.uid
+  const currentUserId = props.firebase.auth.currentUser.uid;
   useEffect(() => {
     const userId = props.firebase.auth.currentUser.uid;
-    props.firebase.user(userId).on("value", (snapshot) => {
+    props.firebase.user(userId).on('value', (snapshot) => {
       let user = snapshot.val();
       setUser(user);
     });
@@ -42,49 +40,49 @@ function WebcamComponent(props) {
   const handleStartCaptureClick = React.useCallback(() => {
     setCapturing(true);
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-      mimeType: "video/webm",
+      mimeType: 'video/webm',
     });
     mediaRecorderRef.current.addEventListener(
-      "dataavailable",
+      'dataavailable',
       handleDataAvailable
     );
     mediaRecorderRef.current.start();
-    console.log('TESTING TO SEE IF CAPTURE WORKS')
+    console.log('TESTING TO SEE IF CAPTURE WORKS');
   }, [handleDataAvailable, webcamRef, setCapturing, mediaRecorderRef]);
-
 
   // --------------- Handle Stop Capture ----------
   const handleStopCaptureClick = React.useCallback(() => {
     mediaRecorderRef.current.stop();
     setCapturing(false);
-    console.log('TESTING TO SEE IF STOP CAPTURE WORKS')
+    console.log('TESTING TO SEE IF STOP CAPTURE WORKS');
   }, [mediaRecorderRef, /*webcamRef,*/ setCapturing]);
 
   // ---------------- Handle Download -------------
   const handleDownload = React.useCallback(() => {
     if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
-        type: "video/webm",
+        type: 'video/webm',
       });
       props.firebase.storage
         .ref()
-        .child("users")
+        .child('users')
         .child(currentUserId)
-        .child("dance2")
+        .child('dance2')
         .put(blob);
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      const source = document.createElement("source")
+      const a = document.createElement('a');
+      const source = document.createElement('source');
       document.body.appendChild(a);
-      a.appendChild(source)
-      source.src = '../../../public/2016-08-23_-_News_Opening_4_-_David_Fesliyan'
-      a.style = "display: none";
+      a.appendChild(source);
+      source.src =
+        '../../../public/2016-08-23_-_News_Opening_4_-_David_Fesliyan';
+      a.style = 'display: none';
       a.href = url;
-      a.download = "react-webcam-stream-capture.webm";
+      a.download = 'react-webcam-stream-capture.webm';
       a.click();
       window.URL.revokeObjectURL(url);
       setRecordedChunks([]);
-      console.log('TESTING TO SEE IF DOWNLOAD WORKS', song)
+      console.log('TESTING TO SEE IF DOWNLOAD WORKS', song);
     }
   }, [currentUserId, recordedChunks, props.firebase.storage]);
 
@@ -101,7 +99,7 @@ function WebcamComponent(props) {
   // ------------ Detec ---------------------------
   const detect = async (net) => {
     if (
-      typeof webcamRef.current !== "undefined" &&
+      typeof webcamRef.current !== 'undefined' &&
       webcamRef.current !== null &&
       webcamRef.current.video.readyState === 4
     ) {
@@ -135,7 +133,7 @@ function WebcamComponent(props) {
     });
 
     result.push(vector.score);
-    console.log("VECTOR:", vector, "RESULT:", result);
+    console.log('VECTOR:', vector, 'RESULT:', result);
     return result;
   }
 
@@ -169,80 +167,80 @@ function WebcamComponent(props) {
   }, []);
 
   let index = 0;
+  const [score, setScore] = useState(0);
 
   //----------------Click me --------------------------
   const handleClick = async (event, bpm) => {
     event.preventDefault();
     console.log(dancePoses);
 
-    handleSongStart()
-    handleStartCaptureClick()
-    const audio = document.getElementById(song)
-    audio.addEventListener('ended', (event) => handleStopCaptureClick())
+    handleSongStart();
+    handleStartCaptureClick();
+    const audio = document.getElementById(song);
+    audio.addEventListener('ended', (event) => handleStopCaptureClick());
 
-    handleDownload()
-
-
+    handleDownload();
 
     const poseInterval = setInterval(async () => {
       const vector = await makeVectors();
-      console.log("index------------>", index);
-      console.log(weightedDistanceMatching(vector, dancePoses[index++]));
-
+      console.log('index------------>', index);
+      setScore(score + weightedDistanceMatching(vector, dancePoses[index++]));
       if (index === dance1Poses.length) clearInterval(poseInterval);
     }, 2000);
   };
 
   // ----------------- Draw Function ------------------
   const drawCanvas = (pose, video, videoWidth, videoHeight, canvas) => {
-    const ctx = canvas.current.getContext("2d");
+    const ctx = canvas.current.getContext('2d');
     canvas.current.width = videoWidth;
     canvas.current.height = videoHeight;
 
-    drawKeypoints(pose["keypoints"], 0.5, ctx);
-    drawSkeleton(pose["keypoints"], 0.5, ctx);
+    drawKeypoints(pose['keypoints'], 0.5, ctx);
+    drawSkeleton(pose['keypoints'], 0.5, ctx);
   };
 
   // ------ Set Audio to State ----------------------
-  const [song, setSong] = useState('dilla')
+  const [song, setSong] = useState('dilla');
   // no useEffect needed, setSong taken care of in onChange of <select>
 
   // ------Handle Song Start -----------------------
-  const handleSongStart = React.useCallback(()=>{
-    const audio = document.getElementById(song)
-    audio.volume = 0.2
-    audio.play()
-  }, [song])
+  const handleSongStart = React.useCallback(() => {
+    const audio = document.getElementById(song);
+    audio.volume = 0.2;
+    audio.play();
+  }, [song]);
 
   // ------Hand Song Stop ---------------------------
-  const handleSongStop = React.useCallback(()=>{
-    const audio = document.getElementById(song)
-    audio.pause()
-    audio.currentTime = 0
-  }, [song])
-
+  const handleSongStop = React.useCallback(() => {
+    const audio = document.getElementById(song);
+    audio.pause();
+    audio.currentTime = 0;
+  }, [song]);
 
   return (
     <div>
       <div>
-        <h3>Score: </h3>
+        <h3>Score: {score} </h3>
       </div>
-      <div className="greeting">
+      <div className='greeting'>
         <h3>Hello {user ? user.username : null}</h3>
       </div>
-      <div className="controls">
+      <div className='controls'>
         {/* <h4>Hello {user !== null ? user.username : null}!</h4> */}
         <div>
           <span>4</span>
         </div>
         <div>
-          <select value={song} onChange={e => {
-            /* pausing the previous song */
-            handleSongStop()
+          <select
+            value={song}
+            onChange={(e) => {
+              /* pausing the previous song */
+              handleSongStop();
 
-            /*changing the selected song value */
-            setSong(e.target.value)
-          }}>
+              /*changing the selected song value */
+              setSong(e.target.value);
+            }}
+          >
             <option value='dilla'>Dilla</option>
             <option value='bhairavi'>Bhairavi</option>
             <option value='nature-boy'>Nature Boy</option>
@@ -259,7 +257,9 @@ function WebcamComponent(props) {
             )} */}
           {recordedChunks.length ? (
             <button onClick={handleDownload}>Download</button>
-          ) : <div/>}
+          ) : (
+            <div />
+          )}
           <button onClick={handleClick}>START</button>
         </div>
       </div>
@@ -267,12 +267,12 @@ function WebcamComponent(props) {
         <Webcam
           ref={webcamRef}
           style={{
-            position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
+            position: 'absolute',
+            marginLeft: 'auto',
+            marginRight: 'auto',
             left: 0,
             right: 0,
-            textAlign: "center",
+            textAlign: 'center',
             zindex: 3,
             width: 640,
             height: 480,
@@ -282,12 +282,12 @@ function WebcamComponent(props) {
         <canvas
           ref={canvasRef}
           style={{
-            position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
+            position: 'absolute',
+            marginLeft: 'auto',
+            marginRight: 'auto',
             left: 0,
             right: 0,
-            textAlign: "center",
+            textAlign: 'center',
             zindex: 3,
             width: 640,
             height: 480,
@@ -295,7 +295,6 @@ function WebcamComponent(props) {
         />
         <PoseOverlay />
       </div>
-
     </div>
   );
 }
@@ -303,4 +302,3 @@ function WebcamComponent(props) {
 const condition = (authUser) => !!authUser;
 
 export default withAuthorization(condition)(WebcamComponent);
-
