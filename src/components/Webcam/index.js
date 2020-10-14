@@ -187,7 +187,7 @@ function WebcamComponent(props) {
   //----------------Click me --------------------------
   const handleClick = async (event, bpm) => {
     console.log(
-      "Time before PoseInterval------------>@@@@",
+      "Time before PoseInterval------------>",
       new Date().getSeconds()
     );
     event.preventDefault();
