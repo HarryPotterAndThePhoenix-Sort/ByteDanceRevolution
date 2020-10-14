@@ -10,16 +10,31 @@ import './Webcam.css'
 
 function WebcamComponent(props) {
 
+
+
+
+
+
   // --------Get Current User---------------------
   const [user, setUser] = useState(null);
   const currentUserId = props.firebase.auth.currentUser.uid
   useEffect(() => {
-    const userId = props.firebase.auth.currentUser.uid;
-    props.firebase.user(userId).on("value", (snapshot) => {
+    props.firebase.user(currentUserId).on("value", (snapshot) => {
       let user = snapshot.val();
       setUser(user);
     });
   }, [props.firebase]);
+
+
+    // -----set high score ------------ must still be invoked
+
+    const setUserHighScore = () => {
+      props.firebase.user(currentUserId).child('scores').set({
+        dance1: {
+          highScore: 83838929203949494
+        }
+      })
+    }
 
   // ----------- Webcam Initialization -----------
   const webcamRef = useRef(null);
@@ -162,8 +177,7 @@ function WebcamComponent(props) {
     return summation1 * summation2;
   }
 
-  // ------ Setting State with Importet Dance Poses ---
-
+  // ------ Setting State with Imported Dance Poses ---
   const [dancePoses, setdancePoses] = useState([]);
   useEffect(() => {
     setdancePoses(dance1Poses);
@@ -183,7 +197,6 @@ function WebcamComponent(props) {
     audio.addEventListener('ended', (event) => handleStopCaptureClick())
 
     handleDownload()
-  
 
     const poseInterval = setInterval(async () => {
       const vector = await makeVectors();
@@ -221,6 +234,7 @@ function WebcamComponent(props) {
     audio.currentTime = 0
   }, [song])
 
+  console.log(user)
 
   return (
     <div>
@@ -252,7 +266,7 @@ function WebcamComponent(props) {
         <div>
           {recordedChunks.length ? (
             <button onClick={handleDownload}>Download</button>
-          ) : <div/>} 
+          ) : <div/>}
           <button onClick={handleClick}>START</button>
         </div>
       </div>
