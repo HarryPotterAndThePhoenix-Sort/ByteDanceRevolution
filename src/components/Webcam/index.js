@@ -184,28 +184,26 @@ function WebcamComponent(props) {
   }, []);
 
   let index = 0;
+  const [score, setScore] = useState(0)
 
   //----------------Click me --------------------------
   const handleClick = async (event, bpm) => {
     event.preventDefault();
     console.log(dancePoses);
 
-    handleSongStart()
-    handleStartCaptureClick()
+    await handleSongStart()
+    await handleStartCaptureClick()
     const audio = document.getElementById(song)
     audio.addEventListener('ended', (event) => handleStopCaptureClick())
 
     handleDownload()
 
-
-
     const poseInterval = setInterval(async () => {
       const vector = await makeVectors();
       console.log("index------------>", index);
-      console.log(weightedDistanceMatching(vector, dancePoses[index++]));
-
+      setScore(score + weightedDistanceMatching(vector, dancePoses[index++]))
       if (index === dance1Poses.length) clearInterval(poseInterval);
-    }, 2000);
+    }, 3000);
   };
 
   // ----------------- Draw Function ------------------
@@ -225,7 +223,7 @@ function WebcamComponent(props) {
   // ------Handle Song Start -----------------------
   const handleSongStart = React.useCallback(()=>{
     const audio = document.getElementById(song)
-    audio.volume = 0.2
+    audio.volume = 0
     audio.play()
   }, [song])
 
@@ -241,7 +239,7 @@ function WebcamComponent(props) {
   return (
     <div>
       <div>
-        <h3>Score: </h3>
+        <h3>Score: {score} </h3>
       </div>
       <div className="greeting">
         <h3>Hello {user ? user.username : null}</h3>
@@ -264,15 +262,8 @@ function WebcamComponent(props) {
             <option value='nature-boy'>Nature Boy</option>
             <option value='sample'>Sample</option>
           </select>
-          {/* <button onClick={handleSongStart}>Start</button>
-        <button onClick={handleSongStop}>Stop</button> */}
         </div>
         <div>
-          {/* {capturing ? (
-            <button onClick={handleStopCaptureClick}>Stop Capture</button>
-          ) : (
-              <button onClick={handleStartCaptureClick}>Start Capture</button>
-            )} */}
           {recordedChunks.length ? (
             <button onClick={handleDownload}>Download</button>
           ) : <div/>}
@@ -309,7 +300,7 @@ function WebcamComponent(props) {
             height: 480,
           }}
         />
-        <PoseOverlay />
+        {capturing ? <PoseOverlay /> : <div/>}
       </div>
 
     </div>
