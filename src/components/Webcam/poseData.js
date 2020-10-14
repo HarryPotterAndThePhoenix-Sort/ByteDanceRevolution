@@ -9,7 +9,7 @@ function PoseData() {
     // ------------ Load posenet---------------------
     const runPosenet = async () => {
         const net = await posenet.load({
-            inputResolution: { width: 800, height: 480 },
+            inputResolution: { width: 640, height: 480 },
             scale: 0.5,
         });
         //    Run function every second
@@ -19,7 +19,7 @@ function PoseData() {
     // ------------ Detec ---------------------------
 
     const detect = async (net) => {
-        let testImg = document.getElementById('test')
+        let testImg = document.getElementById('4')
         const pose = await net.estimateSinglePose(testImg);
         // var canvas = document.getElementById('canvas');
         // drawCanvas(pose, testImg, testImg.clientWidth, testImg.clientHeight, canvas);

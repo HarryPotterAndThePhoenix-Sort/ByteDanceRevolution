@@ -1,13 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import poseData from './poseData'
 
 function PoseOverlay () {
+  let [image, setImage] = useState(1)
 
-    const changeBackgroundImage = () => {
-        let testImg = document.getElementById('test')
-        return testImg
+  const test = () => {
 
-    }
+    const changeBackgroundImage = setInterval(async () => {
+      let background = document.getElementById(image)
+      setImage(image === 4 ? 1: image++)
+      return background
+    }, 2000);
+
+  }
+
+
+    
 
 
     return (
@@ -28,7 +36,7 @@ function PoseOverlay () {
                 width: 640,
                 height: 480,
                 backgroundColor: "violet",
-                backgroundImage: changeBackgroundImage(),
+                backgroundImage: "url('./ymca.gif')",
                 backgroundPosition: "center"
               }}
             />
