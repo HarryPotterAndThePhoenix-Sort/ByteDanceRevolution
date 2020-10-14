@@ -49,15 +49,15 @@ function WebcamComponent(props) {
       handleDataAvailable
     );
     mediaRecorderRef.current.start();
-    console.log('TESTING TO SEE IF CAPTURE WORKS')
   }, [handleDataAvailable, webcamRef, setCapturing, mediaRecorderRef]);
 
 
   // --------------- Handle Stop Capture ----------
   const handleStopCaptureClick = React.useCallback(() => {
-    mediaRecorderRef.current.stop();
+    if (mediaRecorderRef.current.state !== 'inactive' && mediaRecorderRef.current.state !== 'stopped') {
+      mediaRecorderRef.current.stop();
+    }
     setCapturing(false);
-    console.log('TESTING TO SEE IF STOP CAPTURE WORKS')
   }, [mediaRecorderRef, /*webcamRef,*/ setCapturing]);
 
   // ---------------- Handle Download -------------
@@ -177,13 +177,16 @@ function WebcamComponent(props) {
     event.preventDefault();
     console.log(dancePoses);
 
-    await handleSongStart()
-    await handleStartCaptureClick()
-    const audio = document.getElementById(song)
-    audio.addEventListener('ended', (event) => handleStopCaptureClick())
 
-    handleDownload()
-  
+
+    handleSongStart()
+    handleStartCaptureClick()
+    const audio = document.getElementById(song)
+    audio.addEventListener('ended', (event) => {
+      handleStopCaptureClick()
+    })
+
+
 
     const poseInterval = setInterval(async () => {
       const vector = await makeVectors();
@@ -191,7 +194,11 @@ function WebcamComponent(props) {
       setScore(score + weightedDistanceMatching(vector, dancePoses[index++]))
       if (index === dance1Poses.length) clearInterval(poseInterval);
     }, 3000);
+
+
+
   };
+
 
   // ----------------- Draw Function ------------------
   const drawCanvas = (pose, video, videoWidth, videoHeight, canvas) => {
@@ -208,14 +215,14 @@ function WebcamComponent(props) {
   // no useEffect needed, setSong taken care of in onChange of <select>
 
   // ------Handle Song Start -----------------------
-  const handleSongStart = React.useCallback(()=>{
+  const handleSongStart = React.useCallback(() => {
     const audio = document.getElementById(song)
-    audio.volume = 0
+    audio.volume = 0.2
     audio.play()
   }, [song])
 
   // ------Hand Song Stop ---------------------------
-  const handleSongStop = React.useCallback(()=>{
+  const handleSongStop = React.useCallback(() => {
     const audio = document.getElementById(song)
     audio.pause()
     audio.currentTime = 0
@@ -252,8 +259,8 @@ function WebcamComponent(props) {
         <div>
           {recordedChunks.length ? (
             <button onClick={handleDownload}>Download</button>
-          ) : <div/>} 
-          <button onClick={handleClick}>START</button>
+          ) : <div />}
+          {capturing ? <div /> : <button onClick={handleClick}>START</button>}
         </div>
       </div>
       <div>
@@ -286,7 +293,7 @@ function WebcamComponent(props) {
             height: 480,
           }}
         />
-        {capturing ? <PoseOverlay /> : <div/>}
+        {capturing ? <PoseOverlay /> : <div />}
       </div>
 
     </div>
