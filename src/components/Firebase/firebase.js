@@ -49,6 +49,11 @@ class Firebase {
   user = (uid) => this.db.ref(`users/${uid}`);
 
   users = () => this.db.ref("users");
+
+  postHighScores = (dance, uid, score) => this.db.ref(`users/${uid}/scores`).child(dance).set({highScore: score})
+
+  getHighScore = (dance, uid) => this.db.ref(`users/${uid}/scores`).child(dance)
+
 }
 
 export default Firebase;
