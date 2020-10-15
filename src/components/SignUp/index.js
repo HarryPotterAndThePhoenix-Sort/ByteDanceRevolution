@@ -39,6 +39,11 @@ class SignUpFormBase extends Component {
           .set({
             username,
             email,
+            scores: {
+              dance1: {
+                highScore: 0
+              }
+            }
           });
       })
       .then(() => {
