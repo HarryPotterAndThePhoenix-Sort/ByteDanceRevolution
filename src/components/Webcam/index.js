@@ -8,16 +8,32 @@ import { dance1Poses } from './poses';
 import './Webcam.css';
 
 function WebcamComponent(props) {
+
+
+
+
+
+
   // --------Get Current User---------------------
   const [user, setUser] = useState(null);
   const currentUserId = props.firebase.auth.currentUser.uid;
   useEffect(() => {
-    const userId = props.firebase.auth.currentUser.uid;
-    props.firebase.user(userId).on('value', (snapshot) => {
+    props.firebase.user(currentUserId).on("value", (snapshot) => {
       let user = snapshot.val();
       setUser(user);
     });
   }, [props.firebase]);
+
+
+    // -----set high score ------------ must still be invoked
+
+    const setUserHighScore = () => {
+      props.firebase.user(currentUserId).child('scores').set({
+        dance1: {
+          highScore: 83838929203949494
+        }
+      })
+    }
 
   // ----------- Webcam Initialization -----------
   const webcamRef = useRef(null);
@@ -52,7 +68,9 @@ function WebcamComponent(props) {
 
   // --------------- Handle Stop Capture ----------
   const handleStopCaptureClick = React.useCallback(() => {
-    mediaRecorderRef.current.stop();
+    if (mediaRecorderRef.current.state !== 'inactive' && mediaRecorderRef.current.state !== 'stopped') {
+      mediaRecorderRef.current.stop();
+  }
     setCapturing(false);
     console.log('TESTING TO SEE IF STOP CAPTURE WORKS');
   }, [mediaRecorderRef, /*webcamRef,*/ setCapturing]);
@@ -160,7 +178,7 @@ function WebcamComponent(props) {
     return summation1 * summation2;
   }
 
-  // ------ Setting State with Importet Dance Poses ---
+  // ------ Setting State with Imported Dance Poses ---
   const [dancePoses, setdancePoses] = useState([]);
   useEffect(() => {
     setdancePoses(dance1Poses);
@@ -186,7 +204,7 @@ function WebcamComponent(props) {
       console.log('index------------>', index);
       setScore(score + weightedDistanceMatching(vector, dancePoses[index++]));
       if (index === dance1Poses.length) clearInterval(poseInterval);
-    }, 2000);
+    }, 3000);
   };
 
   // ----------------- Draw Function ------------------
@@ -246,15 +264,8 @@ function WebcamComponent(props) {
             <option value='nature-boy'>Nature Boy</option>
             <option value='sample'>Sample</option>
           </select>
-          {/* <button onClick={handleSongStart}>Start</button>
-        <button onClick={handleSongStop}>Stop</button> */}
         </div>
         <div>
-          {/* {capturing ? (
-            <button onClick={handleStopCaptureClick}>Stop Capture</button>
-          ) : (
-              <button onClick={handleStartCaptureClick}>Start Capture</button>
-            )} */}
           {recordedChunks.length ? (
             <button onClick={handleDownload}>Download</button>
           ) : (
@@ -293,7 +304,7 @@ function WebcamComponent(props) {
             height: 480,
           }}
         />
-        <PoseOverlay />
+        {capturing ? <PoseOverlay /> : <div/>}
       </div>
     </div>
   );
