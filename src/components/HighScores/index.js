@@ -2,10 +2,9 @@ import React , { useState, useEffect } from "react";
 import './Landing.css'
 import { withFirebase } from '../Firebase'
 
-const Landing = (props) => {
+const HighScores = (props) => {
 
   const [dance1Scores, setDance1Scores] = useState([])
-  const [users, setUsers] = useState({})
 
   useEffect(()=>{
     // const userId = props.firebase.auth.currentUser.uid
@@ -23,24 +22,52 @@ const Landing = (props) => {
 
         scores.push(child.val())
       })
-      setDance1Scores(scores)
+      setDance1Scores(scores.reverse())
     })
+  }, [setDance1Scores])
 
-  }, [])
-
-  console.log(dance1Scores)
+//   const funky = () => {
+//     dance1Scores.forEach(userObj => {
+//     if(userObj.scores){
+//       console.log(userObj.username, userObj.scores.dance1.highScore)
+//     } else {
+//       return
+//     }
+//   })
+// }
+//   funky()
 
   return (
   <div className="container">
     <h1>High Scores!!!</h1>
-    <div>{
+    <table>
+    <thead>Dance 1 High Scores</thead>
+    <tbody>
 
-      dance1Scores.highScore
+    {
+      dance1Scores.length>0 ?
 
+
+        (dance1Scores.map(userObj => {
+          return userObj.scores ?
+          (
+            <tr key={userObj.email}>
+        <td>{userObj.username}</td>
+        <td>{userObj.scores.dance1.highScore}</td>
+        </tr>
+          )
+        :
+        null
+        }))
+
+        :
+      <tr>
+        <td>Loading...</td></tr>
     }
-      </div>
+    </tbody>
+    </table>
   </div>
 )
   };
 
-export default withFirebase(Landing);
+export default withFirebase(HighScores);

@@ -20,16 +20,23 @@ function WebcamComponent(props) {
 
   // -----set high score ------------ must still be invoked
 
-  const setUserHighScore = () => {
-    props.firebase
-      .user(currentUserId)
-      .child("scores")
-      .set({
-        dance1: {
-          highScore: 83838929203949494,
-        },
-      });
-  };
+  const [highScore, setHighScore] = useState(0)
+
+  useEffect(()=>{
+    props.firebase.user(currentUserId).child('scores').child('dance1').on('value', snapshot => {
+      const highScoreObj = snapshot.val()
+      setHighScore(highScoreObj.highScore)
+    })
+  }, [])
+
+      // -----set high score ------------ must still be invoked
+    // const setUserHighScore = () => {
+    //   props.firebase.user(currentUserId).child('scores').set({
+    //     dance1: {
+    //       highScore: score
+    //     }
+    //   })
+    // }
 
   // ----------- Webcam Initialization -----------
   const webcamRef = useRef(null);
@@ -82,7 +89,7 @@ function WebcamComponent(props) {
         .ref()
         .child("users")
         .child(currentUserId)
-        .child("dance2")
+        .child("dance1")
         .put(blob);
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -242,12 +249,12 @@ function WebcamComponent(props) {
     audio.currentTime = 0;
   }, [song]);
 
-  console.log(user);
 
   return (
     <div>
       <div>
         <h3>Score: {score} </h3>
+        <h3>HighScore: {highScore}</h3>
       </div>
       <div className="greeting">
         <h3>Hello {user ? user.username : null}</h3>
