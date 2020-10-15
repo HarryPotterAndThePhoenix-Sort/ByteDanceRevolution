@@ -19,10 +19,9 @@ const HighScores = (props) => {
 
     props.firebase.db.ref('users').orderByChild('scores/dance1/highScore').on('value', snapshot=>{
       snapshot.forEach((child)=>{
-
         scores.push(child.val())
       })
-      setDance1Scores(scores.reverse())
+      setDance1Scores(scores.reverse().slice(0,5))
     })
   }, [setDance1Scores])
 
