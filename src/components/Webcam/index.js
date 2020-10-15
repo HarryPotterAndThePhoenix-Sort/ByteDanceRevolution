@@ -4,6 +4,7 @@ import * as posenet from "@tensorflow-models/posenet";
 import { drawKeypoints, drawSkeleton } from "./utilities";
 import { withAuthorization } from "../Session";
 import PoseOverlay from "./pose";
+import FinalScore from "./finalScore"
 import { dance1Poses } from "./poses";
 import "./Webcam.css";
 
@@ -20,27 +21,26 @@ function WebcamComponent(props) {
 
   // -----set high score ------------ must still be invoked
 
-  const [highScore, setHighScore] = useState(0);
+  const [highScore, setHighScore] = useState(0)
 
-  useEffect(() => {
-    props.firebase
-      .user(currentUserId)
-      .child("scores")
-      .child("dance1")
-      .on("value", (snapshot) => {
-        const highScoreObj = snapshot.val();
-        setHighScore(highScoreObj.highScore);
-      });
-  }, []);
+  useEffect(()=>{
+    props.firebase.user(currentUserId).child('scores').child('dance1').on('value', snapshot => {
+      const highScoreObj = snapshot.val()
+      setHighScore(highScoreObj.highScore)
+    })
+  }, [])
 
-  // -----set high score ------------ must still be invoked
-  // const setUserHighScore = () => {
-  //   props.firebase.user(currentUserId).child('scores').set({
-  //     dance1: {
-  //       highScore: score
-  //     }
-  //   })
-  // }
+      // -----set high score ------------ must still be invoked
+    const setUserHighScore = () => {
+      if(currentScore > highScore){
+        props.firebase.user(currentUserId).child('scores').set({
+          dance1: {
+            highScore: currentScore
+          }
+        })
+      }
+      
+    }
 
   // ----------- Webcam Initialization -----------
   const webcamRef = useRef(null);
@@ -83,18 +83,31 @@ function WebcamComponent(props) {
     setCapturing(false);
   }, [mediaRecorderRef, /*webcamRef,*/ setCapturing]);
 
+
+ // SAVE VIDEO TO DATABASE
+
+ const handleSave = React.useCallback(() => {
+   if (recordedChunks.length){
+    const blob = new Blob(recordedChunks, {
+      type: "video/webm",
+    });
+
+     props.firebase.storage
+       .ref()
+       .child("users")
+       .child(currentUserId)
+       .child("dance1")
+       .put(blob);
+   }
+ })
+
+
   // ---------------- Handle Download -------------
   const handleDownload = React.useCallback(() => {
     if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
         type: "video/webm",
       });
-      props.firebase.storage
-        .ref()
-        .child("users")
-        .child(currentUserId)
-        .child("dance1")
-        .put(blob);
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       const source = document.createElement("source");
@@ -172,18 +185,18 @@ function WebcamComponent(props) {
     let vector2PoseXY = poseVector2.slice(0, 34);
 
     // First summation
-    let summation1 = 1 / vector1ConfidenceSum;
+    let summation1 =  vector1ConfidenceSum;
 
     // Second summation
     let summation2 = 0;
     for (let i = 0; i < vector1PoseXY.length; i++) {
       let tempConf = Math.floor(i / 2);
       let tempSum =
-        vector1Confidences[tempConf] *
+        vector1Confidences[tempConf] /
         Math.abs(vector1PoseXY[i] - vector2PoseXY[i]);
       summation2 = summation2 + tempSum;
     }
-    return summation1 * summation2;
+    return 1 / (summation1 / summation2) * 1000;
   }
 
   // ------ Setting State with Imported Dance Poses ---
@@ -225,8 +238,10 @@ function WebcamComponent(props) {
       currentScore = currentScore + weightedDistanceMatching(vector, dancePoses[index++])
       setScore(currentScore);
       console.log('CURRENT SCORE ---->', currentScore)
+      setUserHighScore()
       if (index === dance1Poses.length) clearInterval(poseInterval);
     }, 2000);
+
   };
 
 
@@ -290,7 +305,10 @@ function WebcamComponent(props) {
         </div>
         <div>
           {recordedChunks.length ? (
+            <div>
             <button onClick={handleDownload}>Download</button>
+            <button onClick={handleSave}>Save</button>
+            </div>
           ) : (
             <div />
           )}
@@ -328,6 +346,8 @@ function WebcamComponent(props) {
           }}
         />
         {capturing ? <PoseOverlay song={song} /> : <div />}
+        {!capturing && recordedChunks.length? <FinalScore score={score} download={handleDownload}/> : <div/>}
+      
       </div>
     </div>
   );
