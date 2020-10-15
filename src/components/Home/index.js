@@ -1,5 +1,4 @@
 import React from 'react';
-import { Player } from 'video-react';
 import ReactPlayer from 'react-player'
 
 import { withAuthorization } from '../Session';
@@ -18,7 +17,7 @@ class HomePage extends React.Component {
 
 
   async componentDidMount() {
-    const userId = this.props.firebase.auth.currentUser.uid
+      const userId = this.props.firebase.auth.currentUser.uid
       this.props.firebase.user(userId).on('value', snapshot => {
       const user = snapshot.val()
       this.setState({user})
@@ -38,7 +37,7 @@ class HomePage extends React.Component {
     <p>The Home Page is accessible by every signed in user.</p>
     <h3>Welcome {this.state.user.username}!</h3>
     <h3>:)</h3>
-    <div>
+    <div className="video">
       <ReactPlayer controls url={this.state.url}/>
     </div>
   </div>
