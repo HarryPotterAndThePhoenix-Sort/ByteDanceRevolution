@@ -117,6 +117,7 @@ function WebcamComponent(props) {
         "../../../public/2016-08-23_-_News_Opening_4_-_David_Fesliyan";
       a.style = "display: none";
       a.href = url;
+      a.audio = song;
       a.download = "react-webcam-stream-capture.webm";
       a.click();
       window.URL.revokeObjectURL(url);
