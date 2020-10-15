@@ -1,49 +1,59 @@
-import React, { useState } from 'react'
-import poseData from './poseData'
+import React, { useState, useEffect } from "react";
+import poseData from "./poseData";
 
-function PoseOverlay () {
-  let [image, setImage] = useState(1)
-
-  const test = () => {
-
-    const changeBackgroundImage = setInterval(async () => {
-      let background = document.getElementById(image)
-      setImage(image === 4 ? 1: image++)
-      return background
-    }, 2000);
-
+export default class PoseOverlay extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      songSelected: "",
+      image: 1,
+    };
   }
 
+  componentDidMount() {
+    this.setState({ songSelected: this.props.song });
+    const changeBackgroundImage = setInterval(async () => {
+      if (this.state.image < 5) this.setState({ image: this.state.image + 1 });
+      else clearInterval(changeBackgroundImage);
+    }, 3500);
+  }
 
-    
+  componentWillUnmount() {
+    this.setState({ image: null });
+  }
 
-
+  render() {
+    console.log(
+      "Image index",
+      this.state.image,
+      "AT time----->",
+      new Date().getSeconds()
+    );
+    console.log("dance playing is-$-$-$-$-$-$-$-$-$", this.state.songSelected);
     return (
-        <div>
-           <header>
-            <video
-              style={{
-                display: "flex",
-                alignContent: "center",
-                position: "absolute",
-                marginLeft: "auto",
-                marginRight: "auto",
-                left: 0,
-                right: 0,
-                textAlign: "center",
-                zindex: -1,
-                opacity: 0.5,
-                width: 640,
-                height: 480,
-                backgroundColor: "violet",
-                backgroundImage: "url('./ymca.gif')",
-                backgroundPosition: "center"
-              }}
-            />
-          </header>
-        </div>
-    )
-
+      <div>
+        <header>
+          <video
+            style={{
+              display: "flex",
+              alignContent: "center",
+              position: "absolute",
+              marginLeft: "auto",
+              marginRight: "auto",
+              left: 0,
+              right: 0,
+              textAlign: "center",
+              zindex: -1,
+              opacity: 0.5,
+              width: 640,
+              height: 480,
+              backgroundColor: "white",
+              backgroundImage: `url('./${this.state.songSelected}/${this.state.image}.jpg')`,
+              backgroundPosition: "center",
+            }}
+          />
+        </header>
+      </div>
+    );
+  }
 }
-
-export default PoseOverlay
