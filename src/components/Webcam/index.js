@@ -190,7 +190,8 @@ function WebcamComponent(props) {
 
   let index = 0;
   const [score, setScore] = useState(0);
-
+  let currentScore = 0
+  
   //----------------Click me --------------------------
   const handleClick = async (event, bpm) => {
     console.log(
@@ -207,6 +208,7 @@ function WebcamComponent(props) {
       handleStopCaptureClick();
     });
 
+
     const poseInterval = setInterval(async () => {
       // console.log("Webcam index------------>", index);
       console.log(
@@ -216,10 +218,13 @@ function WebcamComponent(props) {
         new Date().getSeconds()
       );
       const vector = await makeVectors();
-      setScore(score + weightedDistanceMatching(vector, dancePoses[index++]));
+      currentScore = currentScore + weightedDistanceMatching(vector, dancePoses[index++])
+      setScore(currentScore);
+      console.log('CURRENT SCORE ---->', currentScore)
       if (index === dance1Poses.length) clearInterval(poseInterval);
     }, 2000);
   };
+
 
   // ----------------- Draw Function ------------------
   const drawCanvas = (pose, video, videoWidth, videoHeight, canvas) => {
