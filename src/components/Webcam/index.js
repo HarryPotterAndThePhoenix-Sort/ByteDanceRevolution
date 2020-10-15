@@ -313,7 +313,7 @@ function WebcamComponent(props) {
             height: 480,
           }}
         />
-        {capturing ? <PoseOverlay /> : <div />}
+        {capturing ? <PoseOverlay song={song} /> : <div />}
       </div>
     </div>
   );
