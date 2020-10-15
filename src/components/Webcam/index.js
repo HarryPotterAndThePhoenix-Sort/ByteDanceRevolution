@@ -192,11 +192,11 @@ function WebcamComponent(props) {
     for (let i = 0; i < vector1PoseXY.length; i++) {
       let tempConf = Math.floor(i / 2);
       let tempSum =
-        vector1Confidences[tempConf] /
-        Math.abs(vector1PoseXY[i] - vector2PoseXY[i]);
+        vector1Confidences[tempConf] *
+        1/ Math.abs(vector1PoseXY[i] - vector2PoseXY[i]);
       summation2 = summation2 + tempSum;
     }
-    return 1 / (summation1 / summation2) * 1000;
+    return Math.round(summation1 * summation2 * 1000);
   }
 
   // ------ Setting State with Imported Dance Poses ---
