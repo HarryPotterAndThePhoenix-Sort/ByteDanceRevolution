@@ -26,11 +26,11 @@ class HomePage extends React.Component {
     const url = await this.props.firebase.storage.ref('users/').child('0rsgwCPao6ewEB8wK4MfaeypzBx1/dance2').getDownloadURL()
     this.setState({url})
 
-   console.log(url)
+   //console.log(url)
   }
 
   render() {
-    console.log(this.state)
+    //console.log(this.state)
     return (
       <div className="Home">
     <h1>Home Page</h1>
