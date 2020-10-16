@@ -1,0 +1,8 @@
+.background {
+    background-image: url('./BDR_BACKGROUND.gif');
+    width: 100%;
+    background-repeat: no-repeat;
+    height: 100vh;
+    background-size: cover;
+    background-color: blueviolet;
+}

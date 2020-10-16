@@ -9,7 +9,7 @@ import * as ROUTES from "../../constants/routes";
 
 const SignInPage = () => {
   return (
-    <div>
+    <div className='background'>
       <h1>SignIn</h1>
       <SignInForm />
       <SignInGoogle />

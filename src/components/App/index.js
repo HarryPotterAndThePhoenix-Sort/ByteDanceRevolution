@@ -12,14 +12,26 @@ import AdminPage from '../Admin';
 import WebcamComponent from '../Webcam';
 import PoseData from '../Webcam/poseData'
 import './App.css'
-
+import logo from './arcade-font-writer.png'
 import * as ROUTES from '../../constants/routes';
 
+// const font =  "'Press Start 2P', cursive";
+
+// const theme = createMuiTheme({
+//   typography: {
+//     fontFamily: font,
+//     button: {textTransform: "none"}
+//     }
+//   });
+
+
 const App = () => (
+  // <ThemeProvider theme={theme}>
   <Router>
-    <div>
+    <div className='background'>
       <Navigation />
       <hr />
+      <div className= 'logo'><img src={logo} /></div>
       <Route exact path={ROUTES.HIGH_SCORES} component={HighScores} />
       <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
       <Route path={ROUTES.SIGN_IN} component={SignInPage} />
@@ -31,6 +43,7 @@ const App = () => (
       <Route path={ROUTES.POSEDATA} component={PoseData} />
     </div>
   </Router>
+  // </ThemeProvider>
 );
 
 export default withAuthentication(App);

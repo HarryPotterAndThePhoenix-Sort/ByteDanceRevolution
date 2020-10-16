@@ -1,43 +1,111 @@
 import React from 'react'
+import {withFirebase} from '../Firebase'
 
-function FinalScore (props) {
+function FinalScore(props) {
 
+    //---------------------SAVE VIDEO------------------------
+    const handleSave = React.useCallback(async () => {
+        if (props.recordedChunks.length) {
+            const blob = new Blob(props.recordedChunks, {
+                type: "video/webm",
+            });
+
+            props.firebase.storage
+                .ref()
+                .child("users")
+                .child(props.currentUserId)
+                .child("dance1")
+                .put(blob);
+
+            
+            const url = await props.firebase.storage
+                .ref()
+                .child("users")
+                .child(props.currentUserId)
+                .child("dance1").getDownloadURL()
+                props.firebase.db.ref('urls').push(url)
+                // console.log('URL------->', url)
+        }
+
+    })
+
+    //---------------------DOWNLOAD VIDEO------------------------
+    const handleDownload = React.useCallback(() => {
+        if (props.recordedChunks.length) {
+            const blob = new Blob(props.recordedChunks, {
+                type: "video/webm",
+                audio: props.song
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            const source = document.createElement("source");
+            document.body.appendChild(a);
+            a.appendChild(source);
+            source.audio = props.song
+            a.style = "display: none";
+            a.audio = props.song
+            a.href = url;
+            a.download = "react-webcam-stream-capture.webm";
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+    }, [props.currentUserId, props.recordedChunks, props.firebase.storage]);
     return (
         <div>
-          <header>
-            <div
-              style={{
-                display: "flex",
-                alignContent: "center",
-                justifyContent: "center",
-                position: 'absolute',
-                marginTop: 120,
-                marginLeft: "auto",
-                marginRight: "auto",
-                left: 0,
-                right: 0,
-                textAlign: "center",
-                zindex: -1,
-                width: 400,
-                height: 200,
-                backgroundColor: "indigo",
-                backgroundPosition: "center",
-              }}>
-              <h3
-                style={{
-                display: "flex",
-                alignContent: "center",
-                textAlign: 'center',
-                color: 'white',
+            <header>
+                <div
+                    style={{
+                        display: "flex",
 
-                }}
-              >FinalScore: {props.score}</h3>
-             {/* <button onClick={props.handleDownload}>Download video</button> */}
-            </div>
-          </header>
+                        position: 'absolute',
+                        marginTop: 140,
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        left: 0,
+                        right: 0,
+                        textAlign: "center",
+                        zindex: -1,
+                        width: 400,
+                        height: 200,
+                        backgroundColor: 'rgba(75, 0, 130, 0.7)',
+                        backgroundPosition: "center",
+                    }}>
+                    <h3
+                        style={{
+                            display: "flex",
+                            textAlign: 'center',
+                            color: 'white',
+                            width: 400,
+                            justifyContent: 'center',
+
+                        }}
+                    >Your Score is {props.score}</h3>
+                    <button
+                        style={{
+                            display: "flex",
+                            alignContent: "center",
+                            textAlign: 'center',
+                            justifyContent: "center",
+                            height: 50,
+
+                        }}
+                        onClick={handleDownload}>Download video</button>
+                    <button
+                        style={{
+                            display: "flex",
+                            alignContent: "center",
+                            textAlign: 'center',
+                            justifyContent: "center",
+                            height: 50,
+
+                        }}
+                        onClick={handleSave}>Save to My Videos</button>
+                        {props.score < 1000 ? <p>You suck</p> : props.score > 5000 && props.score < 10000 ? <p>You're pretty alright</p> : props.score > 10000 && props.score < 1000000  ? <p>Amazing</p> : props.score > 1000000  ? <p>Not as good as Bill</p> : <p></p>}
+                </div>
+            </header>
         </div>
-      );
+    );
 
 }
 
-export default FinalScore
+export default withFirebase(FinalScore)

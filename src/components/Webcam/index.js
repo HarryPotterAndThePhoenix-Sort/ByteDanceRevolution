@@ -62,7 +62,7 @@ function WebcamComponent(props) {
   //  --------- Handle Start Capture Click ------------
   const handleStartCaptureClick = React.useCallback(() => {
     setCapturing(true);
-    mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
+    mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream,{
       mimeType: "video/webm",
     });
     mediaRecorderRef.current.addEventListener(
@@ -101,7 +101,6 @@ function WebcamComponent(props) {
    }
  })
 
-
   // ---------------- Handle Download -------------
   const handleDownload = React.useCallback(() => {
     if (recordedChunks.length) {
@@ -113,10 +112,10 @@ function WebcamComponent(props) {
       const source = document.createElement("source");
       document.body.appendChild(a);
       a.appendChild(source);
-      source.src =
-        "../../../public/2016-08-23_-_News_Opening_4_-_David_Fesliyan";
+      source.src = song
       a.style = "display: none";
       a.href = url;
+      a.audio = song;
       a.download = "react-webcam-stream-capture.webm";
       a.click();
       window.URL.revokeObjectURL(url);
@@ -135,7 +134,7 @@ function WebcamComponent(props) {
     return detect(net);
   };
 
-  // ------------ Detec ---------------------------
+  // ------------ Detect ---------------------------
   const detect = async (net) => {
     if (
       typeof webcamRef.current !== "undefined" &&
@@ -245,6 +244,7 @@ function WebcamComponent(props) {
   };
 
 
+
   // ----------------- Draw Function ------------------
   const drawCanvas = (pose, video, videoWidth, videoHeight, canvas) => {
     const ctx = canvas.current.getContext("2d");
@@ -304,14 +304,14 @@ function WebcamComponent(props) {
           </select>
         </div>
         <div>
-          {recordedChunks.length ? (
+          {/* {recordedChunks.length ? (
             <div>
             <button onClick={handleDownload}>Download</button>
             <button onClick={handleSave}>Save</button>
             </div>
           ) : (
             <div />
-          )}
+          )} */}
           {capturing ? <div /> : <button onClick={handleClick}>START</button>}
         </div>
       </div>
@@ -346,7 +346,7 @@ function WebcamComponent(props) {
           }}
         />
         {capturing ? <PoseOverlay song={song} /> : <div />}
-        {!capturing && recordedChunks.length? <FinalScore score={score} download={handleDownload}/> : <div/>}
+        {!capturing && recordedChunks.length? <FinalScore score={score} recordedChunks={recordedChunks} currentUserId={currentUserId} song={song}/> : <div/>}
       
       </div>
     </div>

@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+
 .App {
   text-align: center;
 }
@@ -35,4 +38,31 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.background {
+  background-image: url('./BDR_BACKGROUND.gif');
+  width: 100%;
+  background-repeat: no-repeat;
+  height: 100vh;
+  background-size: cover;
+  background-color: blueviolet;
+}
+
+.logo {
+  /* background-image: url('./arcade-font-writer.png');
+  background-repeat: no-repeat; */
+  margin-left: 280px;
+  margin-right: 280px;
+  margin-top: 50px;
+  position: relative;
+
+  
+}
+
+img {
+  z-index: -1;
+  margin-left: 200px;
+  margin-right: 200px;
+
 }
