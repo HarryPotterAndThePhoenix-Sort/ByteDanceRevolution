@@ -23,13 +23,13 @@ export default class PoseOverlay extends React.Component {
   }
 
   render() {
-    console.log(
-      "Image index",
-      this.state.image,
-      "AT time----->",
-      new Date().getSeconds()
-    );
-    console.log("dance playing is-$-$-$-$-$-$-$-$-$", this.state.songSelected);
+    // console.log(
+    //   "Image index",
+    //   this.state.image,
+    //   "AT time----->",
+    //   new Date().getSeconds()
+    // );
+    // console.log("dance playing is-$-$-$-$-$-$-$-$-$", this.state.songSelected);
     return (
       <div>
         <header>
