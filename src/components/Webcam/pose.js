@@ -38,6 +38,7 @@ export default class PoseOverlay extends React.Component {
               display: "flex",
               alignContent: "center",
               position: "absolute",
+              marginTop: 20,
               marginLeft: "auto",
               marginRight: "auto",
               left: 0,
@@ -50,6 +51,9 @@ export default class PoseOverlay extends React.Component {
               backgroundColor: "white",
               backgroundImage: `url('./${this.state.songSelected}/${this.state.image}.jpg')`,
               backgroundPosition: "center",
+              border: "10px solid limegreen",
+
+              boxShadow: "0 0 0 10px deeppink",
             }}
           />
         </header>
