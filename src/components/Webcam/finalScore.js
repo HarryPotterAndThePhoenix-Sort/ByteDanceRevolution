@@ -79,7 +79,7 @@ function FinalScore(props) {
                             justifyContent: 'center',
 
                         }}
-                    >FinalScore: {props.score}</h3>
+                    >Your Score is {props.score}</h3>
                     <button
                         style={{
                             display: "flex",
@@ -100,6 +100,7 @@ function FinalScore(props) {
 
                         }}
                         onClick={handleSave}>Save to My Videos</button>
+                        {props.score < 1000 ? <p>You suck</p> : props.score > 5000 && props.score < 10000 ? <p>You're pretty alright</p> : props.score > 10000 && props.score < 1000000  ? <p>Amazing</p> : props.score > 1000000  ? <p>Not as good as Bill</p> : <p></p>}
                 </div>
             </header>
         </div>
