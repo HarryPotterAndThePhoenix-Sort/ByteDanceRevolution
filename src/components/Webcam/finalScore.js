@@ -1,25 +1,36 @@
 import React from 'react'
+import {withFirebase} from '../Firebase'
 
 function FinalScore(props) {
 
     //---------------------SAVE VIDEO------------------------
-    const handleSave = React.useCallback(() => {
+    const handleSave = React.useCallback(async () => {
         if (props.recordedChunks.length) {
             const blob = new Blob(props.recordedChunks, {
                 type: "video/webm",
             });
 
-            props.firebaseStorage
+            props.firebase.storage
                 .ref()
                 .child("users")
                 .child(props.currentUserId)
                 .child("dance1")
                 .put(blob);
+
+            
+            const url = await props.firebase.storage
+                .ref()
+                .child("users")
+                .child(props.currentUserId)
+                .child("dance1").getDownloadURL()
+                props.firebase.db.ref('urls').push(url)
+                // console.log('URL------->', url)
         }
+
     })
 
     //---------------------DOWNLOAD VIDEO------------------------
-      const handleDownload = React.useCallback(() => {
+    const handleDownload = React.useCallback(() => {
         if (props.recordedChunks.length) {
             const blob = new Blob(props.recordedChunks, {
                 type: "video/webm",
@@ -38,14 +49,14 @@ function FinalScore(props) {
             a.click();
             window.URL.revokeObjectURL(url);
         }
-    }, [props.currentUserId, props.recordedChunks, props.firebaseStorage]);
+    }, [props.currentUserId, props.recordedChunks, props.firebase.storage]);
     return (
         <div>
             <header>
                 <div
                     style={{
                         display: "flex",
-            
+
                         position: 'absolute',
                         marginTop: 140,
                         marginLeft: "auto",
@@ -96,4 +107,4 @@ function FinalScore(props) {
 
 }
 
-export default FinalScore
+export default withFirebase(FinalScore)

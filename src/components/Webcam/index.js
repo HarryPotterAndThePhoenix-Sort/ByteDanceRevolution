@@ -346,7 +346,7 @@ function WebcamComponent(props) {
           }}
         />
         {capturing ? <PoseOverlay song={song} /> : <div />}
-        {!capturing && recordedChunks.length? <FinalScore score={score} recordedChunks={recordedChunks} currentUserId={currentUserId} firebaseStorage={props.firebase.storage} song={song}/> : <div/>}
+        {!capturing && recordedChunks.length? <FinalScore score={score} recordedChunks={recordedChunks} currentUserId={currentUserId} song={song}/> : <div/>}
       
       </div>
     </div>

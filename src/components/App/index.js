@@ -13,10 +13,20 @@ import WebcamComponent from '../Webcam';
 import PoseData from '../Webcam/poseData'
 import './App.css'
 import logo from './arcade-font-writer.png'
-
 import * as ROUTES from '../../constants/routes';
 
+// const font =  "'Press Start 2P', cursive";
+
+// const theme = createMuiTheme({
+//   typography: {
+//     fontFamily: font,
+//     button: {textTransform: "none"}
+//     }
+//   });
+
+
 const App = () => (
+  // <ThemeProvider theme={theme}>
   <Router>
     <div className='background'>
       <Navigation />
@@ -33,6 +43,7 @@ const App = () => (
       <Route path={ROUTES.POSEDATA} component={PoseData} />
     </div>
   </Router>
+  // </ThemeProvider>
 );
 
 export default withAuthentication(App);
