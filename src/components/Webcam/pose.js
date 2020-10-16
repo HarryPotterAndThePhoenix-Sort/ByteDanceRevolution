@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import poseData from "./poseData";
+import React from "react";
 
 export default class PoseOverlay extends React.Component {
   constructor(props) {
