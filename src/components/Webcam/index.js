@@ -120,7 +120,7 @@ function WebcamComponent(props) {
       a.click();
       window.URL.revokeObjectURL(url);
       setRecordedChunks([]);
-      console.log("TESTING TO SEE IF DOWNLOAD WORKS", song);
+      // console.log("TESTING TO SEE IF DOWNLOAD WORKS", song);
     }
   }, [currentUserId, recordedChunks, props.firebase.storage]);
 
@@ -171,7 +171,7 @@ function WebcamComponent(props) {
     });
 
     result.push(vector.score);
-    console.log("VECTOR:", vector, "RESULT:", result);
+    // console.log("VECTOR:", vector, "RESULT:", result);
     return result;
   }
 
@@ -210,12 +210,12 @@ function WebcamComponent(props) {
   
   //----------------Click me --------------------------
   const handleClick = async (event, bpm) => {
-    console.log(
-      "Time before PoseInterval------------>",
-      new Date().getSeconds()
-    );
+    // console.log(
+    //   "Time before PoseInterval------------>",
+    //   new Date().getSeconds()
+    // );
     event.preventDefault();
-    console.log(dancePoses);
+    // console.log(dancePoses);
 
     handleSongStart();
     handleStartCaptureClick();
@@ -227,16 +227,16 @@ function WebcamComponent(props) {
 
     const poseInterval = setInterval(async () => {
       // console.log("Webcam index------------>", index);
-      console.log(
-        "Webcam index------------>",
-        index,
-        "at time----->",
-        new Date().getSeconds()
-      );
+      // console.log(
+      //   "Webcam index------------>",
+      //   index,
+      //   "at time----->",
+      //   new Date().getSeconds()
+      // );
       const vector = await makeVectors();
       currentScore = currentScore + weightedDistanceMatching(vector, dancePoses[index++])
       setScore(currentScore);
-      console.log('CURRENT SCORE ---->', currentScore)
+      // console.log('CURRENT SCORE ---->', currentScore)
       setUserHighScore()
       if (index === dance1Poses.length) clearInterval(poseInterval);
     }, 2000);

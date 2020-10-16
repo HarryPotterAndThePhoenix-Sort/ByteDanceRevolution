@@ -23,7 +23,7 @@ function PoseData() {
         const pose = await net.estimateSinglePose(testImg);
         // var canvas = document.getElementById('canvas');
         // drawCanvas(pose, testImg, testImg.clientWidth, testImg.clientHeight, canvas);
-        console.log('POSE FROM POSE DATA', pose)
+        // console.log('POSE FROM POSE DATA', pose)
         return pose
 
     }
@@ -44,7 +44,7 @@ function PoseData() {
         });
 
         result.push(vector.score);
-        console.log("VECTOR FROM POSE DATA FILE:", vector, "RESULT:", result);
+        // console.log("VECTOR FROM POSE DATA FILE:", vector, "RESULT:", result);
         return result;
     }
 
