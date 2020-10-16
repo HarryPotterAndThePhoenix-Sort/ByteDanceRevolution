@@ -11,3 +11,8 @@ li {
   display: flex;
   justify-content: center;
 }
+
+.webcam-scores > h3 {
+  display: flex;
+  justify-content: center;
+}

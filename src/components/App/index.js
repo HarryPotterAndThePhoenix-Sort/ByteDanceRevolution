@@ -1,19 +1,19 @@
-import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { withAuthentication } from '../Session';
-import Navigation from '../Navigation';
-import HighScores from '../HighScores';
-import SignUpPage from '../SignUp';
-import SignInPage from '../SignIn';
-import PasswordForgetPage from '../PasswordForget';
-import HomePage from '../Home';
-import AccountPage from '../Account';
-import AdminPage from '../Admin';
-import WebcamComponent from '../Webcam';
-import PoseData from '../Webcam/poseData'
-import './App.css'
-import logo from './arcade-font-writer.png'
-import * as ROUTES from '../../constants/routes';
+import React from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { withAuthentication } from "../Session";
+import Navigation from "../Navigation";
+import HighScores from "../HighScores";
+import SignUpPage from "../SignUp";
+import SignInPage from "../SignIn";
+import PasswordForgetPage from "../PasswordForget";
+import HomePage from "../Home";
+import AccountPage from "../Account";
+import AdminPage from "../Admin";
+import WebcamComponent from "../Webcam";
+import PoseData from "../Webcam/poseData";
+import "./App.css";
+import logo from "./arcade-font-writer.png";
+import * as ROUTES from "../../constants/routes";
 
 // const font =  "'Press Start 2P', cursive";
 
@@ -24,14 +24,13 @@ import * as ROUTES from '../../constants/routes';
 //     }
 //   });
 
-
 const App = () => (
   // <ThemeProvider theme={theme}>
   <Router>
-    <div className='background'>
+    <div className="background">
       <Navigation />
       <hr />
-      <div className= 'logo'><img src={logo} /></div>
+      <img src={logo} />
       <Route exact path={ROUTES.HIGH_SCORES} component={HighScores} />
       <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
       <Route path={ROUTES.SIGN_IN} component={SignInPage} />
