@@ -329,9 +329,9 @@ function WebcamComponent(props) {
             zindex: 3,
             width: 640,
             height: 480,
-            border: "10px solid limegreen",
+            // border: "10px solid limegreen",
 
-            boxShadow: "0 0 0 10px deeppink",
+            // boxShadow: "0 0 0 10px deeppink",
           }}
         />
 

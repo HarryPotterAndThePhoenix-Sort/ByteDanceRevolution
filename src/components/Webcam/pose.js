@@ -38,6 +38,7 @@ export default class PoseOverlay extends React.Component {
               display: "flex",
               alignContent: "center",
               position: "absolute",
+              marginTop: 20,
               marginLeft: "auto",
               marginRight: "auto",
               left: 0,
