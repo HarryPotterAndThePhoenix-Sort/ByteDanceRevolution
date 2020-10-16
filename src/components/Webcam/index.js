@@ -4,7 +4,7 @@ import * as posenet from "@tensorflow-models/posenet";
 import { drawKeypoints, drawSkeleton } from "./utilities";
 import { withAuthorization } from "../Session";
 import PoseOverlay from "./pose";
-import FinalScore from "./finalScore"
+import FinalScore from "./finalScore";
 import { dance1Poses } from "./poses";
 import "./Webcam.css";
 
@@ -21,26 +21,32 @@ function WebcamComponent(props) {
 
   // -----set high score ------------ must still be invoked
 
-  const [highScore, setHighScore] = useState(0)
+  const [highScore, setHighScore] = useState(0);
 
-  useEffect(()=>{
-    props.firebase.user(currentUserId).child('scores').child('dance1').on('value', snapshot => {
-      const highScoreObj = snapshot.val()
-      setHighScore(highScoreObj.highScore)
-    })
-  }, [])
+  useEffect(() => {
+    props.firebase
+      .user(currentUserId)
+      .child("scores")
+      .child("dance1")
+      .on("value", (snapshot) => {
+        const highScoreObj = snapshot.val();
+        setHighScore(highScoreObj.highScore);
+      });
+  }, []);
 
-      // -----set high score ------------ must still be invoked
-    const setUserHighScore = () => {
-      if(currentScore > highScore){
-        props.firebase.user(currentUserId).child('scores').set({
+  // -----set high score ------------ must still be invoked
+  const setUserHighScore = () => {
+    if (currentScore > highScore) {
+      props.firebase
+        .user(currentUserId)
+        .child("scores")
+        .set({
           dance1: {
-            highScore: currentScore
-          }
-        })
-      }
-      
+            highScore: currentScore,
+          },
+        });
     }
+  };
 
   // ----------- Webcam Initialization -----------
   const webcamRef = useRef(null);
@@ -62,7 +68,7 @@ function WebcamComponent(props) {
   //  --------- Handle Start Capture Click ------------
   const handleStartCaptureClick = React.useCallback(() => {
     setCapturing(true);
-    mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream,{
+    mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
       mimeType: "video/webm",
     });
     mediaRecorderRef.current.addEventListener(
@@ -83,23 +89,22 @@ function WebcamComponent(props) {
     setCapturing(false);
   }, [mediaRecorderRef, /*webcamRef,*/ setCapturing]);
 
+  // SAVE VIDEO TO DATABASE
 
- // SAVE VIDEO TO DATABASE
+  const handleSave = React.useCallback(() => {
+    if (recordedChunks.length) {
+      const blob = new Blob(recordedChunks, {
+        type: "video/webm",
+      });
 
- const handleSave = React.useCallback(() => {
-   if (recordedChunks.length){
-    const blob = new Blob(recordedChunks, {
-      type: "video/webm",
-    });
-
-     props.firebase.storage
-       .ref()
-       .child("users")
-       .child(currentUserId)
-       .child("dance1")
-       .put(blob);
-   }
- })
+      props.firebase.storage
+        .ref()
+        .child("users")
+        .child(currentUserId)
+        .child("dance1")
+        .put(blob);
+    }
+  });
 
   // ---------------- Handle Download -------------
   const handleDownload = React.useCallback(() => {
@@ -112,7 +117,7 @@ function WebcamComponent(props) {
       const source = document.createElement("source");
       document.body.appendChild(a);
       a.appendChild(source);
-      source.src = song
+      source.src = song;
       a.style = "display: none";
       a.href = url;
       a.audio = song;
@@ -184,15 +189,15 @@ function WebcamComponent(props) {
     let vector2PoseXY = poseVector2.slice(0, 34);
 
     // First summation
-    let summation1 =  vector1ConfidenceSum;
+    let summation1 = vector1ConfidenceSum;
 
     // Second summation
     let summation2 = 0;
     for (let i = 0; i < vector1PoseXY.length; i++) {
       let tempConf = Math.floor(i / 2);
       let tempSum =
-        vector1Confidences[tempConf] *
-        1/ Math.abs(vector1PoseXY[i] - vector2PoseXY[i]);
+        (vector1Confidences[tempConf] * 1) /
+        Math.abs(vector1PoseXY[i] - vector2PoseXY[i]);
       summation2 = summation2 + tempSum;
     }
     return Math.round(summation1 * summation2 * 1000);
@@ -206,8 +211,8 @@ function WebcamComponent(props) {
 
   let index = 0;
   const [score, setScore] = useState(0);
-  let currentScore = 0
-  
+  let currentScore = 0;
+
   //----------------Click me --------------------------
   const handleClick = async (event, bpm) => {
     // console.log(
@@ -224,7 +229,6 @@ function WebcamComponent(props) {
       handleStopCaptureClick();
     });
 
-
     const poseInterval = setInterval(async () => {
       // console.log("Webcam index------------>", index);
       // console.log(
@@ -234,16 +238,14 @@ function WebcamComponent(props) {
       //   new Date().getSeconds()
       // );
       const vector = await makeVectors();
-      currentScore = currentScore + weightedDistanceMatching(vector, dancePoses[index++])
+      currentScore =
+        currentScore + weightedDistanceMatching(vector, dancePoses[index++]);
       setScore(currentScore);
       // console.log('CURRENT SCORE ---->', currentScore)
-      setUserHighScore()
+      setUserHighScore();
       if (index === dance1Poses.length) clearInterval(poseInterval);
     }, 2000);
-
   };
-
-
 
   // ----------------- Draw Function ------------------
   const drawCanvas = (pose, video, videoWidth, videoHeight, canvas) => {
@@ -275,18 +277,16 @@ function WebcamComponent(props) {
 
   return (
     <div>
-      <div>
+      <div className="webcam-scores">
         <h3>Score: {score} </h3>
         <h3>HighScore: {highScore}</h3>
       </div>
       <div className="greeting">
-        <h3>Hello {user ? user.username : null}</h3>
+        <h3>Dance {user ? user.username : null}!!!</h3>
       </div>
       <div className="controls">
         {/* <h4>Hello {user !== null ? user.username : null}!</h4> */}
-        <div>
-          <span>4</span>
-        </div>
+        <div>{/* <span>4</span> */}</div>
         <div>
           <select
             value={song}
@@ -299,8 +299,8 @@ function WebcamComponent(props) {
             }}
           >
             <option value="song1">Dance To The Future</option>
-            <option value="song2">Goo Goo Gaa Gaa</option>
-            <option value="song3">Get Going Girl</option>
+            {/* <option value="song2">Goo Goo Gaa Gaa</option>
+            <option value="song3">Get Going Girl</option> */}
           </select>
         </div>
         <div>
@@ -320,6 +320,7 @@ function WebcamComponent(props) {
           ref={webcamRef}
           style={{
             position: "absolute",
+            marginTop: 20,
             marginLeft: "auto",
             marginRight: "auto",
             left: 0,
@@ -328,6 +329,9 @@ function WebcamComponent(props) {
             zindex: 3,
             width: 640,
             height: 480,
+            border: "10px solid limegreen",
+
+            boxShadow: "0 0 0 10px deeppink",
           }}
         />
 
@@ -346,8 +350,16 @@ function WebcamComponent(props) {
           }}
         />
         {capturing ? <PoseOverlay song={song} /> : <div />}
-        {!capturing && recordedChunks.length? <FinalScore score={score} recordedChunks={recordedChunks} currentUserId={currentUserId} song={song}/> : <div/>}
-      
+        {!capturing && recordedChunks.length ? (
+          <FinalScore
+            score={score}
+            recordedChunks={recordedChunks}
+            currentUserId={currentUserId}
+            song={song}
+          />
+        ) : (
+          <div />
+        )}
       </div>
     </div>
   );

@@ -1,20 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { AuthUserContext } from '../Session';
-import SignOutButton from '../SignOut'
+import { AuthUserContext } from "../Session";
+import SignOutButton from "../SignOut";
 
 import * as ROUTES from "../../constants/routes";
 
-import './Navigation.css'
+import "./Navigation.css";
 
 const Navigation = () => (
   <div>
-  <AuthUserContext.Consumer>
-    {authUser =>
-      authUser ? <NavigationAuth /> : <NavigationNonAuth />
-    }
-  </AuthUserContext.Consumer>
-</div>
+    <AuthUserContext.Consumer>
+      {(authUser) => (authUser ? <NavigationAuth /> : <NavigationNonAuth />)}
+    </AuthUserContext.Consumer>
+  </div>
 );
 
 const NavigationAuth = () => (
@@ -29,7 +27,7 @@ const NavigationAuth = () => (
       <Link to={ROUTES.ACCOUNT}>Account</Link>
     </li>
     <li>
-      <Link to={ROUTES.WEBCAM}>WebCam</Link>
+      <Link to={ROUTES.WEBCAM}>PLAY</Link>
     </li>
     <li>
       <SignOutButton />

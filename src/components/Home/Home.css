@@ -7,6 +7,11 @@
   justify-content: center;
 }
 
+.Home > p {
+  width: 400px;
+  margin: auto;
+  line-height: 20px;
+}
 /* .App-logo {
   height: 40vmin;
   pointer-events: none;
