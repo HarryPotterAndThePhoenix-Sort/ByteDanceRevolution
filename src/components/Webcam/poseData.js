@@ -1,11 +1,9 @@
-import React, { useRef } from "react";
+import React from "react";
 import * as posenet from "@tensorflow-models/posenet";
-import { drawKeypoints, drawSkeleton } from "./utilities";
 import './Webcam.css'
 
 
 function PoseData() {
-    // const canvasRef = useRef(null);
     // ------------ Load posenet---------------------
     const runPosenet = async () => {
         const net = await posenet.load({
@@ -21,8 +19,6 @@ function PoseData() {
     const detect = async (net) => {
         let testImg = document.getElementById('4')
         const pose = await net.estimateSinglePose(testImg);
-        // var canvas = document.getElementById('canvas');
-        // drawCanvas(pose, testImg, testImg.clientWidth, testImg.clientHeight, canvas);
         // console.log('POSE FROM POSE DATA', pose)
         return pose
 
@@ -48,30 +44,16 @@ function PoseData() {
         return result;
     }
 
-    // ----------------- Draw Function ------------------
-    // const drawCanvas = (pose, video, videoWidth, videoHeight, canvas) => {
-    //     let ctx = canvas.getContext('2d');
-    //     // const ctx = canvas.current.getContext("2d");
-     //     canvas.current.width = videoWidth;
-    //     canvas.current.height = videoHeight;
-    
-    //     drawKeypoints(pose["keypoints"], 0.5, ctx);
-     //     drawSkeleton(pose["keypoints"], 0.5, ctx);
-    // };
 
     const handleClick = async () => {
     runPosenet()
     makeVectors()
-    // drawCanvas()
 }
-    
-
 
 
      return (
        <div>
-           <h1>This is a test</h1>
-            <button onClick={handleClick}>CLICK</button></div>
+            <button onClick={handleClick}>GET POSE DATA</button></div>
      
      
     )
