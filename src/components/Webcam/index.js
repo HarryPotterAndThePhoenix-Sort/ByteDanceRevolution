@@ -156,7 +156,7 @@ function WebcamComponent(props) {
       webcamRef.current.video.height = videoHeight;
 
       //make detections
-      const pose = await net.estimateSinglePose(video);
+      const pose = await net.estimateSinglePose(video, {flipHorizontal: true});
       drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
       return pose;
       // console.log(pose)
@@ -319,6 +319,7 @@ function WebcamComponent(props) {
         <Webcam
           ref={webcamRef}
           style={{
+            transform: 'rotateY(180deg)',
             position: "absolute",
             marginTop: 20,
             marginLeft: "auto",
