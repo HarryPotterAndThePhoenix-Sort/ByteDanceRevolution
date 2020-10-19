@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as posenet from "@tensorflow-models/posenet";
 import { drawKeypoints, drawSkeleton } from "./utilities";
 import { withAuthorization } from "../Session";
-import PoseOverlay from "./pose";
+import PoseOverlay from "./poseOverlay";
 import FinalScore from "./finalScore";
 import { dance1Poses } from "./poses";
 import "./Webcam.css";
@@ -87,48 +87,9 @@ function WebcamComponent(props) {
       mediaRecorderRef.current.stop();
     }
     setCapturing(false);
-  }, [mediaRecorderRef, /*webcamRef,*/ setCapturing]);
+  }, [mediaRecorderRef, setCapturing]);
 
-  // SAVE VIDEO TO DATABASE
-
-  const handleSave = React.useCallback(() => {
-    if (recordedChunks.length) {
-      const blob = new Blob(recordedChunks, {
-        type: "video/webm",
-      });
-
-      props.firebase.storage
-        .ref()
-        .child("users")
-        .child(currentUserId)
-        .child("dance1")
-        .put(blob);
-    }
-  });
-
-  // ---------------- Handle Download -------------
-  const handleDownload = React.useCallback(() => {
-    if (recordedChunks.length) {
-      const blob = new Blob(recordedChunks, {
-        type: "video/webm",
-      });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      const source = document.createElement("source");
-      document.body.appendChild(a);
-      a.appendChild(source);
-      source.src = song;
-      a.style = "display: none";
-      a.href = url;
-      a.audio = song;
-      a.download = "react-webcam-stream-capture.webm";
-      a.click();
-      window.URL.revokeObjectURL(url);
-      setRecordedChunks([]);
-      // console.log("TESTING TO SEE IF DOWNLOAD WORKS", song);
-    }
-  }, [currentUserId, recordedChunks, props.firebase.storage]);
-
+  
   // ------------ Load posenet---------------------
   const runPosenet = async () => {
     const net = await posenet.load({
@@ -285,7 +246,6 @@ function WebcamComponent(props) {
         <h3>Dance {user ? user.username : null}!!!</h3>
       </div>
       <div className="controls">
-        {/* <h4>Hello {user !== null ? user.username : null}!</h4> */}
         <div>{/* <span>4</span> */}</div>
         <div>
           <select
@@ -299,19 +259,9 @@ function WebcamComponent(props) {
             }}
           >
             <option value="song1">Dance To The Future</option>
-            {/* <option value="song2">Goo Goo Gaa Gaa</option>
-            <option value="song3">Get Going Girl</option> */}
           </select>
         </div>
         <div>
-          {/* {recordedChunks.length ? (
-            <div>
-            <button onClick={handleDownload}>Download</button>
-            <button onClick={handleSave}>Save</button>
-            </div>
-          ) : (
-            <div />
-          )} */}
           {capturing ? <div /> : <button onClick={handleClick}>START</button>}
         </div>
       </div>
@@ -330,9 +280,6 @@ function WebcamComponent(props) {
             zindex: 3,
             width: 640,
             height: 480,
-            // border: "10px solid limegreen",
-
-            // boxShadow: "0 0 0 10px deeppink",
           }}
         />
 

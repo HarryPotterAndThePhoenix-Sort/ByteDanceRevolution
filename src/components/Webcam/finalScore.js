@@ -34,16 +34,11 @@ function FinalScore(props) {
         if (props.recordedChunks.length) {
             const blob = new Blob(props.recordedChunks, {
                 type: "video/webm",
-                audio: props.song
             });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
-            const source = document.createElement("source");
             document.body.appendChild(a);
-            a.appendChild(source);
-            source.audio = props.song
             a.style = "display: none";
-            a.audio = props.song
             a.href = url;
             a.download = "react-webcam-stream-capture.webm";
             a.click();
@@ -56,7 +51,6 @@ function FinalScore(props) {
                 <div
                     style={{
                         display: "flex",
-
                         position: 'absolute',
                         marginTop: 140,
                         marginLeft: "auto",
@@ -100,7 +94,7 @@ function FinalScore(props) {
 
                         }}
                         onClick={handleSave}>Save to My Videos</button>
-                        {props.score < 1000 ? <p>Play again!</p> : props.score > 1000 && props.score < 5000 ? <p>You're pretty alright</p> : props.score > 5000 && props.score < 10000  ? <p>Amazing</p> : props.score > 10000 ? <p>You're a master!</p> : <p></p>}
+                        {props.score < 1000 ? <p>Good start</p> : props.score > 1000 && props.score < 5000 ? <p>You're pretty alright</p> : props.score > 5000 && props.score < 10000  ? <p>Amazing!</p> : props.score > 10000 ? <p>You're a master!</p> : <p></p>}
                 </div>
             </header>
         </div>
