@@ -14,3 +14,6 @@ export const dance1Poses = [
   ],
 ];
 
+export const soFreshPoses = [
+
+]
