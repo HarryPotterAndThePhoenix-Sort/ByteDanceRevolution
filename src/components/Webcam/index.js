@@ -157,7 +157,7 @@ function WebcamComponent(props) {
 
       //make detections
       const pose = await net.estimateSinglePose(video, {flipHorizontal: true});
-      drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
+      await drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
       return pose;
       // console.log(pose)
     }
