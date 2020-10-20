@@ -17,7 +17,7 @@ function PoseData() {
     // ------------ Detec ---------------------------
 
     const detect = async (net) => {
-        let testImg = document.getElementById('1')
+        let testImg = document.getElementById('10')
         const pose = await net.estimateSinglePose(testImg);
         // console.log('POSE FROM POSE DATA', pose)
         return pose
@@ -40,7 +40,7 @@ function PoseData() {
         });
 
         result.push(vector.score);
-        // console.log("VECTOR FROM POSE DATA FILE:", vector, "RESULT:", result);
+        console.log("VECTOR FROM POSE DATA FILE:", vector, "RESULT:", result);
         return result;
     }
 
