@@ -12,7 +12,7 @@ export default class PoseOverlay extends React.Component {
   componentDidMount() {
     this.setState({ songSelected: this.props.song });
     const changeBackgroundImage = setInterval(async () => {
-      if (this.state.image < 5) this.setState({ image: this.state.image + 1 });
+      if (this.state.image < 11) this.setState({ image: this.state.image + 1 });
       else clearInterval(changeBackgroundImage);
     }, 3500);
   }

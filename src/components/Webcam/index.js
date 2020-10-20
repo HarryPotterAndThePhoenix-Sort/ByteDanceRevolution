@@ -219,7 +219,7 @@ function WebcamComponent(props) {
   };
 
   // ------ Set Audio to State ----------------------
-  const [song, setSong] = useState("song1");
+  const [song, setSong] = useState("so-fresh");
   // no useEffect needed, setSong taken care of in onChange of <select>
 
   // ------Handle Song Start -----------------------
@@ -258,7 +258,9 @@ function WebcamComponent(props) {
               setSong(e.target.value);
             }}
           >
-            <option value="song1">Dance To The Future</option>
+            <option value="so-fresh">So Fresh</option>
+            <option value="its-britney">Gimme More</option>
+            <option value="gambino">This is America</option>
           </select>
         </div>
         <div>
