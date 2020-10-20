@@ -5,7 +5,12 @@ import { drawKeypoints, drawSkeleton } from "./utilities";
 import { withAuthorization } from "../Session";
 import PoseOverlay from "./poseOverlay";
 import FinalScore from "./finalScore";
-import { dance1Poses } from "./poses";
+import {
+  soFreshPoses,
+  thisIsAmericaPoses,
+  itsBritney,
+  dance1Poses,
+} from "./poses";
 import "./Webcam.css";
 
 function WebcamComponent(props) {
@@ -89,7 +94,6 @@ function WebcamComponent(props) {
     setCapturing(false);
   }, [mediaRecorderRef, setCapturing]);
 
-  
   // ------------ Load posenet---------------------
   const runPosenet = async () => {
     const net = await posenet.load({
@@ -117,7 +121,9 @@ function WebcamComponent(props) {
       webcamRef.current.video.height = videoHeight;
 
       //make detections
-      const pose = await net.estimateSinglePose(video, {flipHorizontal: true});
+      const pose = await net.estimateSinglePose(video, {
+        flipHorizontal: true,
+      });
       await drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
       return pose;
       // console.log(pose)
@@ -164,11 +170,12 @@ function WebcamComponent(props) {
     return Math.round(summation1 * summation2 * 1000);
   }
 
+  const poseArray = [soFreshPoses, thisIsAmericaPoses, itsBritney];
   // ------ Setting State with Imported Dance Poses ---
-  const [dancePoses, setdancePoses] = useState([]);
-  useEffect(() => {
-    setdancePoses(dance1Poses);
-  }, []);
+  const [dancePoses, setdancePoses] = useState(poseArray[0]);
+  // useEffect(() => {
+  //   setdancePoses();
+  // }, []);
 
   let index = 0;
   const [score, setScore] = useState(0);
@@ -182,30 +189,42 @@ function WebcamComponent(props) {
     // );
     event.preventDefault();
     // console.log(dancePoses);
+    let counter = 4;
+    const countDown = document.getElementById("countdown");
+    const startCountdown = setInterval(async () => {
+      if (counter > 0) {
+        countDown.innerText = counter;
+        counter--;
+      } else {
+        countDown.innerText = `Dance ${user.username}!!!`;
+        clearInterval(startCountdown);
 
-    handleSongStart();
-    handleStartCaptureClick();
-    const audio = document.getElementById(song);
-    audio.addEventListener("ended", (event) => {
-      handleStopCaptureClick();
-    });
+        handleSongStart();
+        handleStartCaptureClick();
+        const audio = document.getElementById(song);
+        audio.addEventListener("ended", (event) => {
+          handleStopCaptureClick();
+        });
 
-    const poseInterval = setInterval(async () => {
-      // console.log("Webcam index------------>", index);
-      // console.log(
-      //   "Webcam index------------>",
-      //   index,
-      //   "at time----->",
-      //   new Date().getSeconds()
-      // );
-      const vector = await makeVectors();
-      currentScore =
-        currentScore + weightedDistanceMatching(vector, dancePoses[index++]);
-      setScore(currentScore);
-      // console.log('CURRENT SCORE ---->', currentScore)
-      setUserHighScore();
-      if (index === dance1Poses.length) clearInterval(poseInterval);
-    }, 2000);
+        const poseInterval = setInterval(async () => {
+          // console.log("Webcam index------------>", index);
+          // console.log(
+          //   "Webcam index------------>",
+          //   index,
+          //   "at time----->",
+          //   new Date().getSeconds()
+          // );
+          const vector = await makeVectors();
+          currentScore =
+            currentScore +
+            weightedDistanceMatching(vector, dancePoses[index++]);
+          setScore(currentScore);
+          // console.log('CURRENT SCORE ---->', currentScore)
+          setUserHighScore();
+          if (index === dancePoses.length) clearInterval(poseInterval);
+        }, 2000);
+      }
+    }, 1000);
   };
 
   // ----------------- Draw Function ------------------
@@ -221,6 +240,8 @@ function WebcamComponent(props) {
   // ------ Set Audio to State ----------------------
   const [song, setSong] = useState("so-fresh");
   // no useEffect needed, setSong taken care of in onChange of <select>
+
+  const [dance, setDance] = useState("so-fresh");
 
   // ------Handle Song Start -----------------------
   const handleSongStart = React.useCallback(() => {
@@ -243,7 +264,7 @@ function WebcamComponent(props) {
         <h3>HighScore: {highScore}</h3>
       </div>
       <div className="greeting">
-        <h3>Dance {user ? user.username : null}!!!</h3>
+        <h3 id="countdown"> Dance {user ? user.username : null}!!!</h3>
       </div>
       <div className="controls">
         <div>{/* <span>4</span> */}</div>
@@ -256,11 +277,13 @@ function WebcamComponent(props) {
 
               /*changing the selected song value */
               setSong(e.target.value);
+              setdancePoses(poseArray[+e.target.selectedIndex]);
+              // console.log("Dance poses", e.target.selectedIndex);
             }}
           >
             <option value="so-fresh">So Fresh</option>
-            <option value="its-britney">Gimme More</option>
             <option value="gambino">This is America</option>
+            <option value="its-britney">Gimme More</option>
           </select>
         </div>
         <div>
@@ -271,7 +294,7 @@ function WebcamComponent(props) {
         <Webcam
           ref={webcamRef}
           style={{
-            transform: 'rotateY(180deg)',
+            transform: "rotateY(180deg)",
             position: "absolute",
             marginTop: 20,
             marginLeft: "auto",
