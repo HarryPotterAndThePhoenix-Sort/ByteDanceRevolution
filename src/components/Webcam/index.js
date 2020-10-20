@@ -9,7 +9,7 @@ import {
   soFreshPoses,
   thisIsAmericaPoses,
   itsBritney,
-  dance1Poses,
+  blackPink,
 } from "./poses";
 import "./Webcam.css";
 
@@ -170,7 +170,7 @@ function WebcamComponent(props) {
     return Math.round(summation1 * summation2 * 1000);
   }
 
-  const poseArray = [soFreshPoses, thisIsAmericaPoses, itsBritney];
+  const poseArray = [soFreshPoses, thisIsAmericaPoses, itsBritney, blackPink];
   // ------ Setting State with Imported Dance Poses ---
   const [dancePoses, setdancePoses] = useState(poseArray[0]);
   // useEffect(() => {
@@ -284,6 +284,7 @@ function WebcamComponent(props) {
             <option value="so-fresh">So Fresh</option>
             <option value="gambino">This is America</option>
             <option value="its-britney">Gimme More</option>
+            <option value="black-pink">Black Pink</option>
           </select>
         </div>
         <div>
