@@ -1,4 +1,5 @@
 import React from "react";
+import { dance1Poses } from "./poses";
 
 export default class PoseOverlay extends React.Component {
   constructor(props) {
@@ -10,11 +11,17 @@ export default class PoseOverlay extends React.Component {
   }
 
   componentDidMount() {
+    console.log("danceposes in compo", this.props.dancePoses);
     this.setState({ songSelected: this.props.song });
     const changeBackgroundImage = setInterval(async () => {
-      if (this.state.image < 11) this.setState({ image: this.state.image + 1 });
-      else clearInterval(changeBackgroundImage);
-    }, 3500);
+      if (this.state.image < this.props.dancePoses.length) {
+        this.setState({ image: this.state.image + 1 });
+      } else clearInterval(changeBackgroundImage);
+      console.log(
+        "COMPONENTDIDMOUNT__POSE OVERLAY----->",
+        new Date().getSeconds()
+      );
+    }, 2000);
   }
 
   componentWillUnmount() {
@@ -22,12 +29,7 @@ export default class PoseOverlay extends React.Component {
   }
 
   render() {
-    // console.log(
-    //   "Image index",
-    //   this.state.image,
-    //   "AT time----->",
-    //   new Date().getSeconds()
-    // );
+    console.log("POSE OVERLAY----->", new Date().getSeconds());
     // console.log("dance playing is-$-$-$-$-$-$-$-$-$", this.state.songSelected);
     return (
       <div>
