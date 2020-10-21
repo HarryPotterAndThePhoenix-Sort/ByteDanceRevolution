@@ -3,54 +3,93 @@ import "./HighScores.css";
 import { withFirebase } from "../Firebase";
 
 const HighScores = (props) => {
-  const [dance1Scores, setDance1Scores] = useState([]);
+  const [soFreshScore, setSoFreshScore] = useState([]);
+  const [gambino, setGambino] = useState([]);
+  const [blackPink, setBlackPink] = useState([]);
+  const [itsBritney, setItsBritney] = useState([]);
 
   useEffect(() => {
-    // const userId = props.firebase.auth.currentUser.uid
-    // props.firebase.db.ref('scores').child('dance1').update({
-    //   prav: 2238483,
-    //   winston: 938392834
-    // })
-    // props.firebase.getHighScore('dance1','0rsgwCPao6ewEB8wK4MfaeypzBx1').on('value', snapshot=>{
-    //   setDance1Scores(snapshot.val())
-    // })
-    const scores = [];
+
+    //SO FRESH SCORES
+    const freshScores = [];
 
     props.firebase.db
       .ref("users")
-      .orderByChild("scores/dance1/highScore")
+      .orderByChild("scores/soFresh/highScore")
       .on("value", (snapshot) => {
         snapshot.forEach((child) => {
-          scores.push(child.val());
+          freshScores.push(child.val());
         });
-        setDance1Scores(scores.reverse().slice(0, 5));
+        setSoFreshScore(freshScores.reverse().slice(0, 5));
       });
-  }, [setDance1Scores]);
 
-  //   const funky = () => {
-  //     dance1Scores.forEach(userObj => {
-  //     if(userObj.scores){
-  //       console.log(userObj.username, userObj.scores.dance1.highScore)
-  //     } else {
-  //       return
-  //     }
-  //   })
-  // }
-  //   funky()
+
+      //GAMBINO SCORES
+
+      const gambinoScores = [];
+
+      props.firebase.db
+        .ref("users")
+        .orderByChild("scores/gambino/highScore")
+        .on("value", (snapshot) => {
+          snapshot.forEach((child) => {
+            gambinoScores.push(child.val());
+          });
+          setGambino(gambinoScores.reverse().slice(0, 5));
+        });
+
+
+      //BLACKPINK SCORES
+
+      const blackPinkScores = [];
+
+      props.firebase.db
+        .ref("users")
+        .orderByChild("scores/blackPink/highScore")
+        .on("value", (snapshot) => {
+          snapshot.forEach((child) => {
+            blackPinkScores.push(child.val());
+          });
+          setBlackPink(blackPinkScores.reverse().slice(0, 5));
+        });
+
+
+      //ITSBRITNEY SCORES
+
+      const itsBritneyScores = [];
+
+      props.firebase.db
+        .ref("users")
+        .orderByChild("scores/itsBritney/highScore")
+        .on("value", (snapshot) => {
+          snapshot.forEach((child) => {
+            itsBritneyScores.push(child.val());
+          });
+          setItsBritney(itsBritneyScores.reverse().slice(0, 5));
+        });
+
+
+
+
+  }, [setSoFreshScore, setGambino, setBlackPink, setItsBritney]);
+
+  
 
   return (
     <div className="high-score-container">
       <h1>High Scores!!!</h1>
+
+
       <div>
+      <h3>So Fresh</h3>
         <table>
-          {/* <thead>Dance 1 High Scores</thead> */}
           <tbody>
-            {dance1Scores.length > 0 ? (
-              dance1Scores.map((userObj) => {
+            {soFreshScore.length > 0 ? (
+              soFreshScore.map((userObj) => {
                 return userObj.scores ? (
                   <tr key={userObj.email}>
                     <td>{userObj.username}</td>
-                    <td>{userObj.scores.dance1.highScore}</td>
+                    <td>{userObj.scores.soFresh.highScore}</td>
                   </tr>
                 ) : null;
               })
@@ -62,6 +101,78 @@ const HighScores = (props) => {
           </tbody>
         </table>
       </div>
+
+
+      <div>
+      <h3>This is America</h3>
+        <table>
+          <tbody>
+            {gambino.length > 0 ? (
+              gambino.map((userObj) => {
+                return userObj.scores ? (
+                  <tr key={userObj.email}>
+                    <td>{userObj.username}</td>
+                    <td>{userObj.scores.gambino.highScore}</td>
+                  </tr>
+                ) : null;
+              })
+            ) : (
+              <tr>
+                <td>Loading...</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+
+      <div>
+      <h3>Kill This Love</h3>
+        <table>
+          <tbody>
+            {blackPink.length > 0 ? (
+              blackPink.map((userObj) => {
+                return userObj.scores ? (
+                  <tr key={userObj.email}>
+                    <td>{userObj.username}</td>
+                    <td>{userObj.scores.blackPink.highScore}</td>
+                  </tr>
+                ) : null;
+              })
+            ) : (
+              <tr>
+                <td>Loading...</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+
+      <div>
+      <h3>Gimme More</h3>
+        <table>
+          <tbody>
+            {itsBritney.length > 0 ? (
+              itsBritney.map((userObj) => {
+                return userObj.scores ? (
+                  <tr key={userObj.email}>
+                    <td>{userObj.username}</td>
+                    <td>{userObj.scores.itsBritney.highScore}</td>
+                  </tr>
+                ) : null;
+              })
+            ) : (
+              <tr>
+                <td>Loading...</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+
+
     </div>
   );
 };

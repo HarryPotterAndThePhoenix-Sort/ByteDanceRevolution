@@ -40,7 +40,16 @@ class SignUpFormBase extends Component {
             username,
             email,
             scores: {
-              dance1: {
+              soFresh: {
+                highScore: 0
+              },
+              gambino: {
+                highScore: 0
+              },
+              blackPink: {
+                highScore: 0
+              },
+              itsBritney: {
                 highScore: 0
               }
             }
