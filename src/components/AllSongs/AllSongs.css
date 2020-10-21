@@ -1,0 +1,13 @@
+.all-songs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 80px;
+  justify-content: space-between;
+}
+
+.all-songs > div > img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+}

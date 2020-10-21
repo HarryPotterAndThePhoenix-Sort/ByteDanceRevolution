@@ -1,6 +1,6 @@
 import React from "react";
 import ReactPlayer from "react-player";
-
+import AllSongs from "../AllSongs";
 import { withAuthorization } from "../Session";
 
 import "./Home.css";
@@ -39,6 +39,7 @@ class HomePage extends React.Component {
           Dance like no one is watching – because they’re not, they’re checking
           their phones.
         </p>
+        <AllSongs />
         <div className="video">
           <ReactPlayer controls url={this.state.url} />
         </div>
