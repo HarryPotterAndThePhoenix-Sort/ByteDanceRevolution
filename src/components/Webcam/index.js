@@ -30,7 +30,7 @@ function WebcamComponent(props) {
   const [highScore, setHighScore] = useState(0);
 
   //Set Audio to State
-  const [song, setSong] = useState("so-fresh");
+  const [song, setSong] = useState("soFresh");
 
   // BPM
   const audio = document.getElementById(song);
@@ -61,12 +61,13 @@ function WebcamComponent(props) {
     props.firebase
       .user(currentUserId)
       .child("scores")
-      .child("dance1")
+      .child(song)
       .on("value", (snapshot) => {
         const highScoreObj = snapshot.val();
         setHighScore(highScoreObj.highScore);
+        console.log('HIGH SCORE OBJECT', highScoreObj, 'SONG', song)
       });
-  }, []);
+  }, [song]);
 
   // -----set high score ------------ must still be invoked
   const setUserHighScore = () => {
@@ -74,11 +75,11 @@ function WebcamComponent(props) {
       props.firebase
         .user(currentUserId)
         .child("scores")
+        .child(song)
         .set({
-          dance1: {
             highScore: currentScore,
           },
-        });
+        );
     }
   };
 
@@ -213,7 +214,7 @@ function WebcamComponent(props) {
       );
       setUserHighScore();
       if (index === dancePoses.length) clearInterval(poseInterval);
-    }, 2000);
+    }, 4000);
   };
 
   const handleStart = async (event, bpm) => {
@@ -325,10 +326,10 @@ function WebcamComponent(props) {
               //</div></div> console.log("BPMMMMM  ", e.target);
             }}
           >
-            <option value="so-fresh">So Fresh</option>
+            <option value="soFresh">So Fresh</option>
             <option value="gambino">This is America</option>
-            <option value="its-britney">Gimme More</option>
-            <option value="black-pink">Black Pink</option>
+            <option value="itsBritney">Gimme More</option>
+            <option value="blackPink">Black Pink</option>
           </select>
         </div>
         <div>

@@ -21,7 +21,7 @@ export default class PoseOverlay extends React.Component {
         "COMPONENTDIDMOUNT__POSE OVERLAY----->",
         new Date().getSeconds()
       );
-    }, 2000);
+    }, 4000);
   }
 
   componentWillUnmount() {

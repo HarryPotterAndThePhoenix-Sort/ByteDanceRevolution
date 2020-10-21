@@ -10,11 +10,11 @@ function FinalScore(props) {
                 type: "video/webm",
             });
 
-            props.firebase.storage
+            await props.firebase.storage
                 .ref()
                 .child("users")
                 .child(props.currentUserId)
-                .child("dance1")
+                .child(props.song)
                 .put(blob);
 
             
@@ -22,8 +22,8 @@ function FinalScore(props) {
                 .ref()
                 .child("users")
                 .child(props.currentUserId)
-                .child("dance1").getDownloadURL()
-                props.firebase.db.ref('urls').push(url)
+                .child(props.song).getDownloadURL()
+                props.firebase.db.ref('urls').child(props.currentUserId).set(url)
                 // console.log('URL------->', url)
         }
 
