@@ -39,7 +39,7 @@
   }
 }
 
-.background {
+/* .background {
   background-image: url("./BDR_BACKGROUND.gif");
   width: 100%;
   background-repeat: no-repeat;
@@ -47,7 +47,7 @@
   background-size: cover;
   background-color: blueviolet;
   padding-bottom: 20px;
-}
+} */
 
 .logo {
   /* background-image: url('./arcade-font-writer.png');

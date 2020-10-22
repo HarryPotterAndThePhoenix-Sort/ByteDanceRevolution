@@ -40,9 +40,9 @@ class HomePage extends React.Component {
           their phones.
         </p>
         <AllSongs />
-        <div className="video">
+        {/* <div className="video">
           <ReactPlayer controls url={this.state.url} />
-        </div>
+        </div> */}
       </div>
     );
   }

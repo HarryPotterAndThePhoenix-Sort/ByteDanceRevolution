@@ -1,5 +1,5 @@
 import React from 'react'
-import {withFirebase} from '../Firebase'
+import { withFirebase } from '../Firebase'
 
 function FinalScore(props) {
 
@@ -17,14 +17,14 @@ function FinalScore(props) {
                 .child(props.song)
                 .put(blob);
 
-            
+
             const url = await props.firebase.storage
                 .ref()
                 .child("users")
                 .child(props.currentUserId)
                 .child(props.song).getDownloadURL()
-                props.firebase.db.ref('urls').child(props.currentUserId).set(url)
-                // console.log('URL------->', url)
+            props.firebase.db.ref('urls').child(props.currentUserId).set(url)
+            // console.log('URL------->', url)
         }
 
     })
@@ -50,7 +50,7 @@ function FinalScore(props) {
             <header>
                 <div
                     style={{
-                        display: "flex",
+                        // display: "flex",
                         position: 'absolute',
                         marginTop: 140,
                         marginLeft: "auto",
@@ -63,38 +63,62 @@ function FinalScore(props) {
                         height: 200,
                         backgroundColor: 'rgba(75, 0, 130, 0.7)',
                         backgroundPosition: "center",
+
                     }}>
                     <h3
                         style={{
+                            marginTop: 40,
                             display: "flex",
+                            justifyContent: 'center',
                             textAlign: 'center',
                             color: 'white',
                             width: 400,
-                            justifyContent: 'center',
+
 
                         }}
                     >Your Score is {props.score}</h3>
-                    <button
-                        style={{
-                            display: "flex",
-                            alignContent: "center",
-                            textAlign: 'center',
-                            justifyContent: "center",
-                            height: 50,
+                    {props.score < 1000 ? <p>Good start</p> : props.score > 1000 && props.score < 5000 ? <p>You're pretty alright</p> : props.score > 5000 && props.score < 10000 ? <p>Amazing!</p> : props.score > 10000 ? <p>You're a master!</p> : <p></p>}
+                    <span>
+                        <button
+                            style={{
+                                display: "flex",
+                                margin: 'auto',
+                                textAlign: 'center',
+                                marginBottom: 10,
+                                backgroundColor: 'limegreen',
+                                border: 'none',
+                                color: 'black',
+                                padding: 15,
+                                textAlign: 'center',
+                                textDecoration: 'none',
+                                display: 'inline-block',
+                                borderRadius: 12,
+                                fontSize: 15
 
-                        }}
-                        onClick={handleDownload}>Download video</button>
-                    <button
-                        style={{
-                            display: "flex",
-                            alignContent: "center",
-                            textAlign: 'center',
-                            justifyContent: "center",
-                            height: 50,
+                            }}
+                            onClick={handleDownload}>Download video</button></span>
+                    <span>
+                        <button
+                            style={{
+                                display: "flex",
+                                margin: 'auto',
+                                textAlign: 'center',
+                                backgroundColor: 'limegreen',
+                                border: 'none',
+                                color: 'black',
+                                padding: 15,
+                                textAlign: 'center',
+                                textDecoration: 'none',
+                                borderRadius: 12,
+                                display: 'inline-block',
+                                fontSize: 15,
+                                marginLeft: 10
 
-                        }}
-                        onClick={handleSave}>Save to My Videos</button>
-                        {props.score < 1000 ? <p>Good start</p> : props.score > 1000 && props.score < 5000 ? <p>You're pretty alright</p> : props.score > 5000 && props.score < 10000  ? <p>Amazing!</p> : props.score > 10000 ? <p>You're a master!</p> : <p></p>}
+
+                            }}
+                            onClick={handleSave}>Save to My Videos</button>
+                    </span>
+
                 </div>
             </header>
         </div>

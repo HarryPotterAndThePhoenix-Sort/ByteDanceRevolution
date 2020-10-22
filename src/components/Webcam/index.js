@@ -30,7 +30,7 @@ function WebcamComponent(props) {
   const [highScore, setHighScore] = useState(0);
 
   //Set Audio to State
-  const [song, setSong] = useState("soFresh");
+  const [song, setSong] = useState("gambino");
 
   // BPM
   const audio = document.getElementById(song);
@@ -326,10 +326,10 @@ function WebcamComponent(props) {
               //</div></div> console.log("BPMMMMM  ", e.target);
             }}
           >
-            <option value="soFresh">So Fresh</option>
             <option value="gambino">This is America</option>
             <option value="itsBritney">Gimme More</option>
             <option value="blackPink">Black Pink</option>
+            <option value="soFresh">So Fresh- WARNING EXPERT LEVEL MUCH DANGER</option>
           </select>
         </div>
         <div>
@@ -351,6 +351,7 @@ function WebcamComponent(props) {
             zindex: 3,
             width: 640,
             height: 480,
+            paddingBottom: 200
           }}
         />
 
@@ -373,7 +374,7 @@ function WebcamComponent(props) {
         ) : (
           <div />
         )}
-        {!capturing && recordedChunks.length ? (
+        {!capturing ? (
           <FinalScore
             score={score}
             recordedChunks={recordedChunks}
