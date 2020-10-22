@@ -2,10 +2,14 @@
   display: flex;
   justify-content: space-around;
   flex-direction: column;
+  width: 1000px;
+  margin: auto;
 }
 
 .video {
   display: flex;
+  flex-wrap: wrap;
+  padding-top: 20px;
 }
 
 .acc-header {
