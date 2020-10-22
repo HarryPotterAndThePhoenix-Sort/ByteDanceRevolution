@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactPlayer from 'react-player'
+
 
 import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
@@ -23,23 +23,28 @@ class AccountPage extends React.Component {
       this.setState({user})
     })
 
-    this.props.firebase.storage.child(userId).on('value', snapshot => {
-      let url = snapshot.val()
-      this.setState([url])
+    this.props.firebase.db.ref(`urls/${userId}`).on('value', snapshot => {
+      let urls = snapshot.val()
+      let allUrls = Object.values(urls)
+      this.setState({urls: allUrls})
     })
   }
 
   render(){
+    console.log(this.state.urls)
   return (
     <AuthUserContext.Consumer>
       {authUser => (
         <div  className="container">
         <div>
+          <h1>Welcome {this.state.user.username}!</h1>
           <div className="video">
-          <ReactPlayer controls url={this.state.url} />
+          {
+            this.state.urls.map(url => {
+              return <video src={url} ></video>
+            })
+          }
         </div>
-          <h1>Username: {this.state.user.username}</h1>
-          <h1>Email: {this.state.user.email}</h1>
           <PasswordForgetForm />
           <PasswordChangeForm />
         </div>
