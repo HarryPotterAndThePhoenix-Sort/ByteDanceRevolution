@@ -18,7 +18,7 @@ function WebcamComponent(props) {
   // INTIAL STATES
 
   // pose vectors for score comparision
-  const poseArray = [soFreshPoses, thisIsAmericaPoses, itsBritney, blackPink];
+  const poseArray = [thisIsAmericaPoses, itsBritney, blackPink, soFreshPoses];
   const [dancePoses, setdancePoses] = useState(poseArray[0]);
 
   //pose iterator for score calculation
@@ -65,21 +65,16 @@ function WebcamComponent(props) {
       .on("value", (snapshot) => {
         const highScoreObj = snapshot.val();
         setHighScore(highScoreObj.highScore);
-        console.log('HIGH SCORE OBJECT', highScoreObj, 'SONG', song)
+        console.log("HIGH SCORE OBJECT", highScoreObj, "SONG", song);
       });
   }, [song]);
 
   // -----set high score ------------ must still be invoked
   const setUserHighScore = () => {
     if (currentScore > highScore) {
-      props.firebase
-        .user(currentUserId)
-        .child("scores")
-        .child(song)
-        .set({
-            highScore: currentScore,
-          },
-        );
+      props.firebase.user(currentUserId).child("scores").child(song).set({
+        highScore: currentScore,
+      });
     }
   };
 
@@ -329,7 +324,9 @@ function WebcamComponent(props) {
             <option value="gambino">This is America</option>
             <option value="itsBritney">Gimme More</option>
             <option value="blackPink">Black Pink</option>
-            <option value="soFresh">So Fresh- WARNING EXPERT LEVEL MUCH DANGER</option>
+            <option value="soFresh">
+              So Fresh- WARNING EXPERT LEVEL MUCH DANGER
+            </option>
           </select>
         </div>
         <div>
@@ -351,7 +348,7 @@ function WebcamComponent(props) {
             zindex: 3,
             width: 640,
             height: 480,
-            paddingBottom: 200
+            paddingBottom: 200,
           }}
         />
 

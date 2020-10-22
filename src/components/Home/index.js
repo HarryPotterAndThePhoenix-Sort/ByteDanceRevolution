@@ -20,11 +20,11 @@ class HomePage extends React.Component {
       const user = snapshot.val();
       this.setState({ user });
     });
-    const url = await this.props.firebase.storage
-      .ref("users/")
-      .child("0rsgwCPao6ewEB8wK4MfaeypzBx1/dance2")
-      .getDownloadURL();
-    this.setState({ url });
+    // const url = await this.props.firebase.storage
+    //   .ref("users/")
+    //   .child("0rsgwCPao6ewEB8wK4MfaeypzBx1/dance2")
+    //   .getDownloadURL();
+    // this.setState({ url });
 
     //  console.log(url)
   }

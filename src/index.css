@@ -5,7 +5,7 @@ body {
   color: limegreen;
   text-shadow: 4px 4px #000000;
   margin: 0;
-  background-image: url('./BDR_BACKGROUND.gif'), url('./BDR_BACKGROUND.gif');
+  background-image: url("./BDR_BACKGROUND.gif"), url("./BDR_BACKGROUND.gif");
   transform: none, scaleY(-1);
   width: 100%;
   background-repeat: repeat-y;
@@ -18,6 +18,18 @@ a {
   text-shadow: 0 0 #000000;
 }
 
+form {
+  display: flex;
+  justify-content: center;
+  padding: 20px 20px 20px 20px;
+}
+
+button {
+  cursor: pointer;
+}
+link {
+  cursor: pointer;
+}
 /* button {
   background-color: limegreen;
   border: none;
