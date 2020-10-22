@@ -76,19 +76,20 @@ const HighScores = (props) => {
   
 
   return (
+    <div>
+      <h1 id='leaderboard'>High Scores!!!</h1>
     <div className="high-score-container">
-      <h1>High Scores!!!</h1>
 
 
       <div>
-      <h3>So Fresh</h3>
+      <h3 className='songName'>So Fresh</h3>
         <table>
           <tbody>
             {soFreshScore.length > 0 ? (
               soFreshScore.map((userObj) => {
                 return userObj.scores ? (
                   <tr key={userObj.email}>
-                    <td>{userObj.username}</td>
+                    <td>{userObj.username.slice(0, 16)}</td>
                     <td>{userObj.scores.soFresh.highScore}</td>
                   </tr>
                 ) : null;
@@ -104,14 +105,14 @@ const HighScores = (props) => {
 
 
       <div>
-      <h3>This is America</h3>
+      <h3 className='songName'>This is America</h3>
         <table>
           <tbody>
             {gambino.length > 0 ? (
               gambino.map((userObj) => {
                 return userObj.scores ? (
                   <tr key={userObj.email}>
-                    <td>{userObj.username}</td>
+                    <td>{userObj.username.slice(0, 16)}</td>
                     <td>{userObj.scores.gambino.highScore}</td>
                   </tr>
                 ) : null;
@@ -127,14 +128,14 @@ const HighScores = (props) => {
 
 
       <div>
-      <h3>Kill This Love</h3>
+      <h3 className='songName'>Kill This Love</h3>
         <table>
           <tbody>
             {blackPink.length > 0 ? (
               blackPink.map((userObj) => {
                 return userObj.scores ? (
                   <tr key={userObj.email}>
-                    <td>{userObj.username}</td>
+                    <td>{userObj.username.slice(0, 16)}</td>
                     <td>{userObj.scores.blackPink.highScore}</td>
                   </tr>
                 ) : null;
@@ -150,14 +151,14 @@ const HighScores = (props) => {
 
 
       <div>
-      <h3>Gimme More</h3>
+      <h3 className='songName'>Gimme More</h3>
         <table>
           <tbody>
             {itsBritney.length > 0 ? (
               itsBritney.map((userObj) => {
                 return userObj.scores ? (
                   <tr key={userObj.email}>
-                    <td>{userObj.username}</td>
+                    <td>{userObj.username.slice(0, 16)}</td>
                     <td>{userObj.scores.itsBritney.highScore}</td>
                   </tr>
                 ) : null;
@@ -173,6 +174,7 @@ const HighScores = (props) => {
 
 
 
+    </div>
     </div>
   );
 };

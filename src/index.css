@@ -5,12 +5,27 @@ body {
   color: limegreen;
   text-shadow: 4px 4px #000000;
   margin: 0;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-image: url('./BDR_BACKGROUND.gif'), url('./BDR_BACKGROUND.gif');
+  transform: none, scaleY(-1);
+  width: 100%;
+  background-repeat: repeat-y;
+  height: auto;
+  overflow: auto;
 }
 
 a {
   color: limegreen;
   text-shadow: 0 0 #000000;
 }
+
+/* button {
+  background-color: limegreen;
+  border: none;
+  color: black;
+  padding: 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin-bottom: 5px;
+} */

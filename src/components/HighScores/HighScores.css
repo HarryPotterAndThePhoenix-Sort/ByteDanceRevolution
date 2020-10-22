@@ -1,7 +1,24 @@
 .high-score-container {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  flex-direction: row;
   justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding-top: 70px;
+  padding-top: 20px;
+  margin: auto;
+  width: 800px;
+}
+
+#leaderboard {
+  padding-top: 20px;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.songName {
+  color: rgb(192, 127, 254);
+  text-shadow:limegreen;
+
+
 }
