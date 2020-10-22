@@ -23,7 +23,7 @@ function FinalScore(props) {
                 .child("users")
                 .child(props.currentUserId)
                 .child(props.song).getDownloadURL()
-            props.firebase.db.ref('urls').child(props.currentUserId).set(url)
+            props.firebase.db.ref('urls').child(props.currentUserId).push(url)
             // console.log('URL------->', url)
         }
 

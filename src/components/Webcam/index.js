@@ -374,7 +374,7 @@ function WebcamComponent(props) {
         ) : (
           <div />
         )}
-        {!capturing ? (
+        {!capturing && recordedChunks.length ? (
           <FinalScore
             score={score}
             recordedChunks={recordedChunks}
