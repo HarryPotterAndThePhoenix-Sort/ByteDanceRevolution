@@ -1,9 +1,13 @@
-.container {
+.acc-container {
   display: flex;
   justify-content: space-around;
+  flex-direction: column;
 }
 
 .video {
   display: flex;
-  flex-direction: column;
+}
+
+.acc-header {
+  text-align: center;
 }
