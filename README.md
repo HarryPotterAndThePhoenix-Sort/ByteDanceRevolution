@@ -1,6 +1,6 @@
  
 # ByteDance Revolution 
-_ByteDance Revolution is an interactive dance web application ._
+_ByteDance Revolution is an interactive dance web application._
 
 <img src="https://github.com/googlecreativelab/posenet-sketchbook/blob/master/sketches/basic/assets/moving.gif?raw=true" width="400" height="400">
  
@@ -45,7 +45,13 @@ Builds the app for production to the build folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
 The build is minified and the filenames include the hashes.
 Your app is ready to be deployed!
- 
+To deploy to your site, run the following command from the root of your local project directory
+
+```
+firebase deploy --only hosting
+```
+Your App is now deployed!!
+
 ## Built With
 Technology | Description
 ------------ | -------------
