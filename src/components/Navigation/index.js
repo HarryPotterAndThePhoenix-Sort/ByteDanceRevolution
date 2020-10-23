@@ -17,17 +17,11 @@ const Navigation = () => (
 
 const NavigationAuth = () => (
   <div className="auth-nav-container">
-
       <Link to={ROUTES.HOME}>Home</Link>
-  
       <Link to={ROUTES.WEBCAM}>PLAY</Link>
-
       <Link to={ROUTES.EDITACCOUNT}>My Account</Link>
- 
       <Link to={ROUTES.ACCOUNT}>My Saved Videos</Link>
- 
       <Link to={ROUTES.HIGH_SCORES}>High Scores</Link>
-
       <SignOutButton />
   </div>
 );

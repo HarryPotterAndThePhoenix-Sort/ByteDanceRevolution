@@ -58,4 +58,3 @@ class Firebase {
 
 export default Firebase;
 
-// ADD TO SECRETS ETC

@@ -19,7 +19,6 @@ function PoseData() {
     const detect = async (net) => {
         let testImg = document.getElementById('10')
         const pose = await net.estimateSinglePose(testImg);
-        // console.log('POSE FROM POSE DATA', pose)
         return pose
 
     }

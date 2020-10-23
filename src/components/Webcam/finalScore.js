@@ -2,7 +2,8 @@ import React from "react";
 import { withFirebase } from "../Firebase";
 
 function FinalScore(props) {
-  //---------------------SAVE VIDEO------------------------
+
+  //---------------------SAVE VIDEO-------------------------
   const handleSave = React.useCallback(async () => {
     if (props.recordedChunks.length) {
       const blob = new Blob(props.recordedChunks, {
@@ -23,11 +24,10 @@ function FinalScore(props) {
         .child(songDate)
         .getDownloadURL();
       await props.firebase.db.ref("urls").child(props.currentUserId).push(url);
-      // console.log('URL------->', url)
     }
   });
 
-  //---------------------DOWNLOAD VIDEO------------------------
+  //---------------------DOWNLOAD VIDEO-----------------------
   const handleDownload = React.useCallback(() => {
     if (props.recordedChunks.length) {
       const blob = new Blob(props.recordedChunks, {
@@ -48,7 +48,6 @@ function FinalScore(props) {
       <header>
         <div
           style={{
-            // display: "flex",
             position: "absolute",
             marginTop: 140,
             marginLeft: "auto",

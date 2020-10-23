@@ -11,16 +11,11 @@ export default class PoseOverlay extends React.Component {
   }
 
   componentDidMount() {
-    console.log("danceposes in compo", this.props.dancePoses);
     this.setState({ songSelected: this.props.song });
     const changeBackgroundImage = setInterval(async () => {
       if (this.state.image < this.props.dancePoses.length) {
         this.setState({ image: this.state.image + 1 });
       } else clearInterval(changeBackgroundImage);
-      console.log(
-        "COMPONENTDIDMOUNT__POSE OVERLAY----->",
-        new Date().getSeconds()
-      );
     }, 4000);
   }
 
@@ -29,8 +24,6 @@ export default class PoseOverlay extends React.Component {
   }
 
   render() {
-    console.log("POSE OVERLAY----->", new Date().getSeconds());
-    // console.log("dance playing is-$-$-$-$-$-$-$-$-$", this.state.songSelected);
     return (
       <div>
         <header>
@@ -53,7 +46,6 @@ export default class PoseOverlay extends React.Component {
               backgroundImage: `url('./${this.state.songSelected}/${this.state.image}.jpg')`,
               backgroundPosition: "center",
               border: "10px solid limegreen",
-
               boxShadow: "0 0 0 10px deeppink",
             }}
           />

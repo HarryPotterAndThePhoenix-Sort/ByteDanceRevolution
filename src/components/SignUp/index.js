@@ -34,7 +34,6 @@ class SignUpFormBase extends Component {
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
-        // Create a user in your Firebase realtime database
         return this.props.firebase
           .user(authUser.user.uid)
           .set({
@@ -117,9 +116,7 @@ class SignUpFormBase extends Component {
           placeholder="Confirm Password"
         />
         <button disabled={isInvalid} type="submit">Sign Up</button>
-
         {error && <p>{error.message}</p>}
-
       </form>
     )
   }
