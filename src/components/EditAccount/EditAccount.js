@@ -1,5 +1,5 @@
 import React from "react";
-
+import './EditAccount.css'
 import { PasswordForgetForm } from "../PasswordForget";
 import PasswordChangeForm from "../PasswordChange";
 import { AuthUserContext, withAuthorization } from "../Session";
@@ -25,9 +25,9 @@ class AccountPage extends React.Component {
       <AuthUserContext.Consumer>
         {(authUser) => (
           <div className="edit-account">
-            <h1>Welcome {this.state.user.username}!</h1>
-            <h3>Email: {this.state.user.email}</h3>
-            <h3>Edit Account Details</h3>
+            <h2 className='edit-account-h2'>Welcome {this.state.user.username}!</h2>
+            {/* <h3 className="edit-account-h3">Email: {this.state.user.email}</h3> */}
+            <h3 className="edit-account-h3">Edit Account Details</h3>
             <PasswordForgetForm />
             <PasswordChangeForm />
           </div>

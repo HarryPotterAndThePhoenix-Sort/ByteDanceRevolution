@@ -36,9 +36,9 @@ class AccountPage extends React.Component {
         {(authUser) => (
           <div className="acc-container">
             <div>
-              <h1 className="acc-header">
+              <h2 className="acc-header">
                 Welcome {this.state.user.username}!
-              </h1>
+              </h2>
               <div className="video">
                 {this.state.urls.length > 0 ? (
                   this.state.urls.map((url, index) => {

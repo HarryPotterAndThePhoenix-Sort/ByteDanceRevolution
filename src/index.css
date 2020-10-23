@@ -30,7 +30,7 @@ button {
 link {
   cursor: pointer;
 }
-/* button {
+button {
   background-color: limegreen;
   border: none;
   color: black;
@@ -39,5 +39,13 @@ link {
   text-decoration: none;
   display: inline-block;
   font-size: 15px;
-  margin-bottom: 5px;
-} */
+  border-radius: 10px;
+  position: relative;
+  margin-left: 5px;
+}
+
+select {
+  display: flex;
+  margin-top: 7px;
+  margin-right: 5px;
+}

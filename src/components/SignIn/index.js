@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { compose } from "recompose";
-
+import './SignIn.css'
 import { SignUpLink } from "../SignUp";
 import { PasswordForgetLink } from "../PasswordForget";
 import { withFirebase } from "../Firebase";
@@ -10,7 +10,7 @@ import * as ROUTES from "../../constants/routes";
 const SignInPage = () => {
   return (
     <div className="background">
-      <h1>SignIn</h1>
+      <h2 className='signIn-h2'>SignIn</h2>
       <SignInForm />
       <SignInGoogle />
       <PasswordForgetLink />

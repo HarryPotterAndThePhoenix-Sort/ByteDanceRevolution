@@ -66,3 +66,9 @@
   margin-top: 50px;
   position: relative;
 }
+
+hr {
+  background-color: limegreen;
+  border-top: 1px dashed limegreen;
+  opacity: 0.5;
+}
