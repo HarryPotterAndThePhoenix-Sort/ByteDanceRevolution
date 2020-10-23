@@ -2,7 +2,7 @@
 # ByteDance Revolution 
 _ByteDance Revolution is an interactive dance web application ._
 
-<img src="sketches/basic/assets/moving.gif" alt="basic demo gif" width="400" height="400">
+<img src="https://github.com/googlecreativelab/posenet-sketchbook/blob/master/sketches/basic/assets/moving.gif?raw=true " alt="basic demo gif" width="400" height="400">
  
 ## How to Use this application 
 To use this application, the user first either logs in or signs up using their email and password, or by using their Google account. The app consists of five distinct pages: Home, Play, My Account, My Saved Videos and High Scores. The Home page has a list of songs, each with a preset dance routine. You can listen to the song and decide which one you want to dance to. The user can migrate over to the main dance page either by clicking on the Dance button or the Play button in the nav bar. The Play page is the main page on the app, where the user can dance to a routine, view their score, save their video to My Saved Videos page and download to their local computer. Upon selecting a song to dance and pressing the start button, the user gets a countdown and needs to position themself to the overlaid images and start dancing. Once the routine is complete, the score is printed on the screen and the user gets options to save or download the video. Videos are stored in .webm format and can be played in any web browser. The My Account page consists of the user account details, and options to reset email and password. The My Saved Videos page comprises all the dance videos saved by the user. The High Scores page lists the scores of users per dance routine and has live updates as players play.
