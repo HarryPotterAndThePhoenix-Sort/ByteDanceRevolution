@@ -1,4 +1,11 @@
-.container {
+.auth-nav-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 0;
+  padding-top: 25px;
+}
+
+.nonauth-nav-container {
   display: flex;
   justify-content: space-around;
   margin-top: 0;

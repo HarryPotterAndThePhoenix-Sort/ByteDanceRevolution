@@ -16,18 +16,21 @@ const Navigation = () => (
 );
 
 const NavigationAuth = () => (
-  <ul className="container">
-    <li>
-      <Link to={ROUTES.HIGH_SCORES}>High Scores</Link>
-    </li>
+  <ul className="auth-nav-container">
     <li>
       <Link to={ROUTES.HOME}>Home</Link>
     </li>
     <li>
-      <Link to={ROUTES.ACCOUNT}>Account</Link>
+      <Link to={ROUTES.WEBCAM}>PLAY</Link>
     </li>
     <li>
-      <Link to={ROUTES.WEBCAM}>PLAY</Link>
+      <Link to={ROUTES.EDITACCOUNT}>My Account</Link>
+    </li>
+    <li>
+      <Link to={ROUTES.ACCOUNT}>My Saved Videos</Link>
+    </li>
+    <li>
+      <Link to={ROUTES.HIGH_SCORES}>High Scores</Link>
     </li>
     <li>
       <SignOutButton />
@@ -36,7 +39,7 @@ const NavigationAuth = () => (
 );
 
 const NavigationNonAuth = () => (
-  <ul>
+  <ul className="nonauth-nav-container">
     <li>
       <Link to={ROUTES.HIGH_SCORES}>High Scores</Link>
     </li>

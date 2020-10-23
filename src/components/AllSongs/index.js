@@ -30,13 +30,13 @@ class AllSongs extends React.Component {
               className="button-play"
               onClick={() => this.handlePlay("soFresh")}
             >
-              Play Audio
+              ►
             </button>
             <button
               className="button-pause"
               onClick={() => this.handleStop("soFresh")}
             >
-              Pause Audio
+              ❙❙
             </button>
           </div>
           <div>
@@ -46,13 +46,13 @@ class AllSongs extends React.Component {
               className="button-play"
               onClick={() => this.handlePlay("gambino")}
             >
-              Play Audio
+              ►
             </button>
             <button
               className="button-pause"
               onClick={() => this.handleStop("gambino")}
             >
-              Pause Audio
+              ❙❙
             </button>
           </div>
           <div>
@@ -62,13 +62,13 @@ class AllSongs extends React.Component {
               className="button-play"
               onClick={() => this.handlePlay("itsBritney")}
             >
-              Play Audio
+              ►
             </button>
             <button
               className="button-pause"
               onClick={() => this.handleStop("itsBritney")}
             >
-              Pause Audio
+              ❙❙
             </button>
           </div>
           <div>
@@ -78,13 +78,13 @@ class AllSongs extends React.Component {
               className="button-play"
               onClick={() => this.handlePlay("blackPink")}
             >
-              Play Audio
+              ►
             </button>
             <button
               className="button-pause"
               onClick={() => this.handleStop("blackPink")}
             >
-              Pause Audio
+              ❙❙
             </button>
           </div>
         </div>

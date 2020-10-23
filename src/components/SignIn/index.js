@@ -9,7 +9,7 @@ import * as ROUTES from "../../constants/routes";
 
 const SignInPage = () => {
   return (
-    <div className='background'>
+    <div className="background">
       <h1>SignIn</h1>
       <SignInForm />
       <SignInGoogle />
@@ -100,18 +100,18 @@ class SignInGoogleBase extends Component {
           email: socialAuthUser.user.email,
           scores: {
             soFresh: {
-              highScore: 0
+              highScore: 0,
             },
             gambino: {
-              highScore: 0
+              highScore: 0,
             },
             blackPink: {
-              highScore: 0
+              highScore: 0,
             },
             itsBritney: {
-              highScore: 0
-            }
-          }
+              highScore: 0,
+            },
+          },
         });
       })
       .then((socialAuthUser) => {

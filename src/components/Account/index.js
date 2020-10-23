@@ -1,7 +1,4 @@
 import React from "react";
-
-import { PasswordForgetForm } from "../PasswordForget";
-import PasswordChangeForm from "../PasswordChange";
 import { AuthUserContext, withAuthorization } from "../Session";
 
 import "./Account.css";
@@ -63,11 +60,6 @@ class AccountPage extends React.Component {
                   <div></div>
                 )}
               </div>
-            </div>
-            <div>
-              <h3 className="acc-header">Edit Account Details</h3>
-              <PasswordForgetForm />
-              <PasswordChangeForm />
             </div>
           </div>
         )}

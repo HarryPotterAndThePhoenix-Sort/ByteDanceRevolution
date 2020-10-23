@@ -23,3 +23,33 @@
   display: inline-block;
   font-size: 30px;
 }
+/* #play-pause { */
+/* display: none;
+} */
+
+label {
+  cursor: pointer;
+}
+
+.button-play {
+  width: 15%;
+  transition-duration: 0.4s;
+  padding: 5px;
+  margin: 5px;
+}
+
+.button-pause {
+  width: 15%;
+  transition-duration: 0.4s;
+  padding: 5px;
+}
+
+.button-pause:hover {
+  background-color: rgb(204, 138, 138); /* Green */
+  color: black;
+}
+
+.button-play:hover {
+  background-color: green;
+  color: black;
+}
