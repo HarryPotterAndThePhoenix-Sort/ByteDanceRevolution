@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+import '../SignIn/SignIn.css'
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
 const PasswordForgetPage = () => (
   <div>
-    <h1>PasswordForget</h1>
+    <h2>PasswordForget</h2>
     <PasswordForgetForm />
   </div>
 );
@@ -58,7 +58,7 @@ class PasswordForgetFormBase extends Component {
         />
         <button disabled={isInvalid} type='submit'>
 
-          Reset My Password
+          Reset My Email
         </button>
 
         {error && <p>{error.message}</p>}
@@ -68,9 +68,9 @@ class PasswordForgetFormBase extends Component {
 }
 
 const PasswordForgetLink = () => (
-  <p>
+  <h3 className='signIn-h3'>
     <Link to={ROUTES.PASSWORD_FORGET}>Forgot Password?</Link>
-  </p>
+  </h3>
 );
 
 export default PasswordForgetPage;

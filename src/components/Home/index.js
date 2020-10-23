@@ -33,7 +33,7 @@ class HomePage extends React.Component {
     // console.log(this.state)
     return (
       <div className="Home">
-        <h2>Welcome {this.state.user.username}!</h2>
+        <h2 className='home-h2'>Welcome {this.state.user.username}!</h2>
         <h3>:)</h3>
         <p>
           Dance like no one is watching – because they’re not, they’re checking

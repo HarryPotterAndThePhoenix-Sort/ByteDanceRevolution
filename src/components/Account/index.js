@@ -1,7 +1,4 @@
 import React from "react";
-
-import { PasswordForgetForm } from "../PasswordForget";
-import PasswordChangeForm from "../PasswordChange";
 import { AuthUserContext, withAuthorization } from "../Session";
 
 import "./Account.css";
@@ -39,9 +36,9 @@ class AccountPage extends React.Component {
         {(authUser) => (
           <div className="acc-container">
             <div>
-              <h1 className="acc-header">
+              <h2 className="acc-header">
                 Welcome {this.state.user.username}!
-              </h1>
+              </h2>
               <div className="video">
                 {this.state.urls.length > 0 ? (
                   this.state.urls.map((url, index) => {
@@ -63,11 +60,6 @@ class AccountPage extends React.Component {
                   <div></div>
                 )}
               </div>
-            </div>
-            <div>
-              <h3 className="acc-header">Edit Account Details</h3>
-              <PasswordForgetForm />
-              <PasswordChangeForm />
             </div>
           </div>
         )}

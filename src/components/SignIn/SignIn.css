@@ -1,8 +1,19 @@
-.background {
-    background-image: url('./BDR_BACKGROUND.gif');
-    width: 100%;
-    background-repeat: no-repeat;
-    height: 100vh;
-    background-size: cover;
-    background-color: blueviolet;
+
+.signIn-h3 {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  margin: auto;
+  margin-top: 15px;
+
+}
+
+.signIn-h2 {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 30px;
+  margin-top: 30px;
+
 }

@@ -11,6 +11,7 @@ import AccountPage from "../Account";
 import AdminPage from "../Admin";
 import WebcamComponent from "../Webcam";
 import PoseData from "../Webcam/poseData";
+import EditAccount from "../EditAccount/EditAccount";
 import "./App.css";
 import logo from "./arcade-font-writer.png";
 import * as ROUTES from "../../constants/routes";
@@ -35,11 +36,12 @@ const App = () => (
       <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
       <Route path={ROUTES.SIGN_IN} component={SignInPage} />
       <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-      <Route path={ROUTES.HOME} component={HomePage} />
+      <Route exact path={ROUTES.HOME} component={HomePage} />
       <Route path={ROUTES.ACCOUNT} component={AccountPage} />
       <Route path={ROUTES.ADMIN} component={AdminPage} />
       <Route path={ROUTES.WEBCAM} component={WebcamComponent} />
       <Route path={ROUTES.POSEDATA} component={PoseData} />
+      <Route path={ROUTES.EDITACCOUNT} component={EditAccount} />
     </div>
   </Router>
   // </ThemeProvider>
