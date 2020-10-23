@@ -1,5 +1,4 @@
 import React from "react";
-import ReactPlayer from "react-player";
 import AllSongs from "../AllSongs";
 import { withAuthorization } from "../Session";
 
@@ -20,21 +19,12 @@ class HomePage extends React.Component {
       const user = snapshot.val();
       this.setState({ user });
     });
-    // const url = await this.props.firebase.storage
-    //   .ref("users/")
-    //   .child("0rsgwCPao6ewEB8wK4MfaeypzBx1/dance2")
-    //   .getDownloadURL();
-    // this.setState({ url });
-
-    //  console.log(url)
   }
 
   render() {
-    // console.log(this.state)
     return (
       <div className="Home">
         <h2 className='home-h2'>Welcome {this.state.user.username}!</h2>
-        {/* <h3>:)</h3> */}
         <p>
           Dance like no one is watching–<br /> because they’re not, <br />they’re checking
           their phones.
@@ -47,9 +37,6 @@ class HomePage extends React.Component {
           Then follow along to the poses displayed!
         </p>
         <AllSongs />
-        {/* <div className="video">
-          <ReactPlayer controls url={this.state.url} />
-        </div> */}
       </div>
     );
   }

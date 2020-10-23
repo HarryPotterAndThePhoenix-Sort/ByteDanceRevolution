@@ -24,63 +24,60 @@ const HighScores = (props) => {
       });
 
 
-      //GAMBINO SCORES
+    //GAMBINO SCORES
 
-      const gambinoScores = [];
-
-      props.firebase.db
-        .ref("users")
-        .orderByChild("scores/gambino/highScore")
-        .on("value", (snapshot) => {
-          snapshot.forEach((child) => {
-            gambinoScores.push(child.val());
-          });
-          setGambino(gambinoScores.reverse().slice(0, 5));
+     const gambinoScores = [];
+    props.firebase.db
+      .ref("users")
+      .orderByChild("scores/gambino/highScore")
+      .on("value", (snapshot) => {
+         snapshot.forEach((child) => {
+         gambinoScores.push(child.val());
         });
+        setGambino(gambinoScores.reverse().slice(0, 5));
+    });
 
 
-      //BLACKPINK SCORES
+    //BLACKPINK SCORES
 
       const blackPinkScores = [];
 
-      props.firebase.db
-        .ref("users")
-        .orderByChild("scores/blackPink/highScore")
-        .on("value", (snapshot) => {
+    props.firebase.db
+      .ref("users")
+      .orderByChild("scores/blackPink/highScore")
+      .on("value", (snapshot) => {
           snapshot.forEach((child) => {
-            blackPinkScores.push(child.val());
+          blackPinkScores.push(child.val());
           });
-          setBlackPink(blackPinkScores.reverse().slice(0, 5));
-        });
+      setBlackPink(blackPinkScores.reverse().slice(0, 5));
+    });
 
 
       //ITSBRITNEY SCORES
 
-      const itsBritneyScores = [];
+    const itsBritneyScores = [];
 
-      props.firebase.db
-        .ref("users")
-        .orderByChild("scores/itsBritney/highScore")
-        .on("value", (snapshot) => {
-          snapshot.forEach((child) => {
-            itsBritneyScores.push(child.val());
-          });
-          setItsBritney(itsBritneyScores.reverse().slice(0, 5));
+    props.firebase.db
+      .ref("users")
+      .orderByChild("scores/itsBritney/highScore")
+      .on("value", (snapshot) => {
+        snapshot.forEach((child) => {
+          itsBritneyScores.push(child.val());
         });
+        setItsBritney(itsBritneyScores.reverse().slice(0, 5));
+    });
 
 
 
 
   }, [setSoFreshScore, setGambino, setBlackPink, setItsBritney]);
 
-  
+
 
   return (
     <div>
       <h1 id='leaderboard'>High Scores!!!</h1>
     <div className="high-score-container">
-
-
       <div>
       <h3 className='songName'>So Fresh</h3>
         <table>
@@ -102,8 +99,6 @@ const HighScores = (props) => {
           </tbody>
         </table>
       </div>
-
-
       <div>
       <h3 className='songName'>This is America</h3>
         <table>
@@ -125,8 +120,6 @@ const HighScores = (props) => {
           </tbody>
         </table>
       </div>
-
-
       <div>
       <h3 className='songName'>Kill This Love</h3>
         <table>
@@ -148,8 +141,6 @@ const HighScores = (props) => {
           </tbody>
         </table>
       </div>
-
-
       <div>
       <h3 className='songName'>Gimme More</h3>
         <table>
@@ -171,9 +162,6 @@ const HighScores = (props) => {
           </tbody>
         </table>
       </div>
-
-
-
     </div>
     </div>
   );

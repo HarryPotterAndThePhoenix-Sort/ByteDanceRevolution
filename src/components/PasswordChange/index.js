@@ -11,13 +11,11 @@ const INITIAL_STATE = {
 class PasswordChangeForm extends Component {
   constructor(props) {
     super(props);
-
     this.state = { ...INITIAL_STATE };
   }
 
   onSubmit = event => {
     const { passwordOne } = this.state;
-
     this.props.firebase
       .doPasswordUpdate(passwordOne)
       .then(() => {
@@ -26,7 +24,6 @@ class PasswordChangeForm extends Component {
       .catch(error => {
         this.setState({ error });
       });
-
     event.preventDefault();
   };
 
@@ -36,7 +33,6 @@ class PasswordChangeForm extends Component {
 
   render() {
     const { passwordOne, passwordTwo, error } = this.state;
-
     const isInvalid =
       passwordOne !== passwordTwo || passwordOne === '';
 
@@ -59,7 +55,6 @@ class PasswordChangeForm extends Component {
         <button disabled={isInvalid} type="submit">
           Reset My Password
         </button>
-
         {error && <p>{error.message}</p>}
       </form>
     );

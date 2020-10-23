@@ -21,7 +21,6 @@ class AccountPage extends React.Component {
 
     this.props.firebase.db.ref(`urls/${userId}`).on("value", (snapshot) => {
       let urls = snapshot.val();
-      console.log("URLSS---", urls);
       if (urls !== null && urls !== undefined) {
         let allUrls = Object.values(urls);
         this.setState({ urls: allUrls });

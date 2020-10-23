@@ -10,41 +10,38 @@ import {
   thisIsAmericaPoses,
   itsBritney,
   blackPink,
-  dance1Poses,
 } from "./poses";
 import "./Webcam.css";
 
 function WebcamComponent(props) {
   // INTIAL STATES
 
-  // pose vectors for score comparision
+  // POSE VECTORS FOR SCORE COMPARISON
   const poseArray = [thisIsAmericaPoses, itsBritney, blackPink, soFreshPoses];
   const [dancePoses, setdancePoses] = useState(poseArray[0]);
 
-  //pose iterator for score calculation
+  // POSE ITERATOR FOR SCORE CALCULATION
   let index = 0;
   const [score, setScore] = useState(0);
   let currentScore = 0;
 
-  // set highscore
+  // SET HIGHSCORE
   const [highScore, setHighScore] = useState(0);
 
-  //Set Audio to State
+  // SET AUDIO TO STATE
   const [song, setSong] = useState("gambino");
 
-  // BPM
+  // GET THE CORRECT AUDIO
   const audio = document.getElementById(song);
-  const bpm = Number(audio.getAttribute("bpm"));
-  const interval = (bpm / 60) * 4000;
 
-  //Webcam Initialization
+  // WEBCAM INITIALIZATION
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const [capturing, setCapturing] = useState(false);
   const [recordedChunks, setRecordedChunks] = React.useState([]);
 
-  //--------------------------------------------------------------------------------------------
+
   // --------Get Current User---------------------
   const [user, setUser] = useState(null);
   const currentUserId = props.firebase.auth.currentUser.uid;
@@ -55,8 +52,7 @@ function WebcamComponent(props) {
     });
   }, [props.firebase]);
 
-  // -----set high score ------------ must still be invoked
-
+  // --------set high score-----------------------
   useEffect(() => {
     props.firebase
       .user(currentUserId)
@@ -69,7 +65,7 @@ function WebcamComponent(props) {
       });
   }, [song]);
 
-  // -----set high score ------------ must still be invoked
+  // -------Reset User High Score-----------------
   const setUserHighScore = () => {
     if (currentScore > highScore) {
       props.firebase.user(currentUserId).child("scores").child(song).set({
@@ -88,7 +84,7 @@ function WebcamComponent(props) {
     [setRecordedChunks]
   );
 
-  //  --------- Handle Start Capture Click ------------
+  //  --------- Handle Start Capture Click ---------
   const handleStartCaptureClick = React.useCallback(() => {
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
       mimeType: "video/webm",
@@ -100,7 +96,7 @@ function WebcamComponent(props) {
     mediaRecorderRef.current.start();
   }, [handleDataAvailable, webcamRef, setCapturing, mediaRecorderRef]);
 
-  // --------------- Handle Stop Capture ----------
+  // --------------- Handle Stop Capture -----------
   const handleStopCaptureClick = React.useCallback(() => {
     if (
       mediaRecorderRef.current.state !== "inactive" &&
@@ -111,14 +107,12 @@ function WebcamComponent(props) {
     setCapturing(false);
   }, [mediaRecorderRef, setCapturing]);
 
-  // ------------ Load posenet---------------------
+  // ------------ Load posenet----------------------
   const runPosenet = async () => {
     const net = await posenet.load({
-      //await
       inputResolution: { width: 800, height: 480 },
       scale: 0.5,
     });
-    //    Run function every second
     return detect(net);
   };
 
@@ -144,11 +138,10 @@ function WebcamComponent(props) {
       });
       await drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
       return pose;
-      // console.log(pose)
     }
   };
 
-  // ------------- Run PoseNet and Make Vectors ------
+  // ----------- Run PoseNet and Make Vectors -------
   async function makeVectors() {
     let vector = await runPosenet(); //await
     let result = [];
@@ -161,11 +154,10 @@ function WebcamComponent(props) {
     });
 
     result.push(vector.score);
-    // console.log("VECTOR:", vector, "RESULT:", result);
     return result;
   }
 
-  // ----------------- Match Vectors ------------------
+  // ---------------- Match Vectors ------------------
   function weightedDistanceMatching(poseVector1, poseVector2) {
     let vector1PoseXY = poseVector1.slice(0, 34);
     let vector1Confidences = poseVector1.slice(34, 51);
@@ -188,25 +180,14 @@ function WebcamComponent(props) {
     return Math.round(summation1 * summation2 * 1000);
   }
 
-  // handle start
-  // runs countdown
-  // calls handleClick function
+//  ------- Run Posenet and Reset Score --------------
   const handlePosenet = async () => {
     setCapturing(true);
-    console.log("---------Posenet starts--------");
     const poseInterval = setInterval(async () => {
       const vector = await makeVectors(); //await
       currentScore =
         currentScore + weightedDistanceMatching(vector, dancePoses[index++]);
       setScore(currentScore);
-      console.log(
-        "posenet----->",
-        new Date().getSeconds(),
-        "INDEX---->",
-        index,
-        "dance_poses_length",
-        dancePoses.length
-      );
       setUserHighScore();
       if (index === dancePoses.length) clearInterval(poseInterval);
     }, 4000);
@@ -225,7 +206,7 @@ function WebcamComponent(props) {
       } else {
         countDown.innerText = `Dance ${user.username}!!!`;
         clearInterval(startCountdown);
-        const vector = await makeVectors(); //await
+        const vector = await makeVectors();
         currentScore =
           currentScore + weightedDistanceMatching(vector, dancePoses[index]);
         setScore(currentScore);
@@ -240,40 +221,8 @@ function WebcamComponent(props) {
     }, 1000);
   };
 
-  //----------------Click me --------------------------
-  // const handleClick = async (event, bpm) => {
-  //   event.preventDefault();
-  //   let counter = 4;
-  //   const countDown = document.getElementById("countdown");
-  //   const startCountdown = setInterval(async () => {
-  //     if (counter > 0) {
-  //       countDown.innerText = counter;
-  //       counter--;
-  //     } else {
-  //       countDown.innerText = `Dance ${user.username}!!!`;
-  //       clearInterval(startCountdown);
 
-  //       handleSongStart();
-  //       handleStartCaptureClick();
-  //       const audio = document.getElementById(song);
-  //       audio.addEventListener("ended", (event) => {
-  //         handleStopCaptureClick();
-  //       });
-
-  //       const poseInterval = setInterval(async () => {
-  //         const vector = await makeVectors();
-  //         currentScore =
-  //           currentScore +
-  //           weightedDistanceMatching(vector, dancePoses[index++]);
-  //         setScore(currentScore);
-  //         setUserHighScore();
-  //         if (index === dancePoses.length) clearInterval(poseInterval);
-  //       }, interval);
-  //     }
-  //   }, 1000);
-  // };
-
-  // ----------------- Draw Function ------------------
+  // ----------------- Draw Function -----------------
   const drawCanvas = (pose, video, videoWidth, videoHeight, canvas) => {
     const ctx = canvas.current.getContext("2d");
     canvas.current.width = videoWidth;
@@ -283,14 +232,14 @@ function WebcamComponent(props) {
     drawSkeleton(pose["keypoints"], 0.5, ctx);
   };
 
-  // ------Handle Song Start -----------------------
+  // -------Handle Song Start ------------------------
   const handleSongStart = React.useCallback(() => {
     const audio = document.getElementById(song);
     audio.volume = 0.2;
     audio.play();
   }, [song]);
 
-  // ------Hand Song Stop ---------------------------
+  // -------Hand Song Stop ---------------------------
   const handleSongStop = React.useCallback(() => {
     const audio = document.getElementById(song);
     audio.pause();
@@ -307,19 +256,13 @@ function WebcamComponent(props) {
         <h3 id="countdown"> Dance {user ? user.username : null}!!!</h3>
       </div>
       <div className="controls">
-        <div>{/* <span>4</span> */}</div>
         <div>
           <select
             value={song}
             onChange={(e) => {
-              /* pausing the previous song */
               handleSongStop();
-
-              /*changing the selected song value */
               setSong(e.target.value);
               setdancePoses(poseArray[+e.target.selectedIndex]);
-              //setBpm()
-              //</div></div> console.log("BPMMMMM  ", e.target);
             }}
           >
             <option value="gambino">This is America</option>

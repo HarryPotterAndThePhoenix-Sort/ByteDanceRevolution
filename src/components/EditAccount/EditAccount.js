@@ -26,7 +26,6 @@ class AccountPage extends React.Component {
         {(authUser) => (
           <div className="edit-account">
             <h2 className='edit-account-h2'>Welcome {this.state.user.username}!</h2>
-            {/* <h3 className="edit-account-h3">Email: {this.state.user.email}</h3> */}
             <h3 className="edit-account-h3">Edit Account Details</h3>
             <PasswordForgetForm />
             <PasswordChangeForm />

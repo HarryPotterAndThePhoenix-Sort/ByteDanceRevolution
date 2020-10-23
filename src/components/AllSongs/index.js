@@ -10,7 +10,6 @@ class AllSongs extends React.Component {
     this.handleStop = this.handleStop.bind(this);
   }
   handlePlay(song) {
-    console.log("song", song);
     let audio = document.getElementById(song);
     audio.play();
   }

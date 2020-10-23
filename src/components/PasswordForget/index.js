@@ -19,13 +19,11 @@ const INITIAL_STATE = {
 class PasswordForgetFormBase extends Component {
   constructor(props) {
     super(props);
-
     this.state = { ...INITIAL_STATE };
   }
 
   onSubmit = (event) => {
     const { email } = this.state;
-
     this.props.firebase
       .doPasswordReset(email)
       .then(() => {
@@ -34,7 +32,6 @@ class PasswordForgetFormBase extends Component {
       .catch(error => {
         this.setState({ error });
       });
-
     event.preventDefault();
   };
 
@@ -57,10 +54,8 @@ class PasswordForgetFormBase extends Component {
           placeholder='Email Address'
         />
         <button disabled={isInvalid} type='submit'>
-
           Reset My Email
         </button>
-
         {error && <p>{error.message}</p>}
       </form>
     );
