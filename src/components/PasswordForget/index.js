@@ -6,7 +6,7 @@ import * as ROUTES from '../../constants/routes';
 
 const PasswordForgetPage = () => (
   <div>
-    <h2>PasswordForget</h2>
+    <h2 className='signIn-h2'>PasswordForget</h2>
     <PasswordForgetForm />
   </div>
 );
