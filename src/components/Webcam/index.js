@@ -219,7 +219,8 @@ function WebcamComponent(props) {
     const countDown = document.getElementById("countdown");
     const startCountdown = setInterval(async () => {
       if (counter > 0) {
-        countDown.innerText = counter;
+        countDown.innerText = 'Make sure your full body is visible!\n'
+        countDown.innerText +=  counter
         counter--;
       } else {
         countDown.innerText = `Dance ${user.username}!!!`;
