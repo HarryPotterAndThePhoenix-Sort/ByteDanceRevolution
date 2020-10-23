@@ -34,10 +34,17 @@ class HomePage extends React.Component {
     return (
       <div className="Home">
         <h2 className='home-h2'>Welcome {this.state.user.username}!</h2>
-        <h3>:)</h3>
+        {/* <h3>:)</h3> */}
         <p>
-          Dance like no one is watching – because they’re not, they’re checking
+          Dance like no one is watching–<br /> because they’re not, <br />they’re checking
           their phones.
+        </p>
+
+        <h2 className='home-h2'>How to Play</h2>
+        <p>
+          Go to 'Play' in the menu, pick a song, and press Start.<br />
+          Make sure your whole body is visible in your webcam.<br />
+          Then follow along to the poses displayed!
         </p>
         <AllSongs />
         {/* <div className="video">
